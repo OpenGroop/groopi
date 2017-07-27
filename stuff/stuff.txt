@@ -1,0 +1,3 @@
+crontab -e   ## 57 23 * * * /usr/local/sbin/saggregator.py
+
+mkdir /var/local/sqlite/db
