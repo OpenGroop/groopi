@@ -49,13 +49,13 @@ class SConnect(threading.Thread):
             logging.info(' %s: Begin device registration', self.device)
             logging.info(' %s: device=%s', self.device, deviceID)
 
-
+            ## GET TABLES
             granular_table = getGranularTable(deviceID)
             summary_table  = getSummaryTable(deviceID)
 
-            register_db = sqlite3.connect(REGISTER_DB_PATH)
             ## QUERY DEVICE NAME AGAINST REGISTER
             logging.info(' %s/%s: Checking device against register', self.device, deviceID)
+            register_db = sqlite3.connect(REGISTER_DB_PATH)
             sql = "SELECT id FROM device_registers WHERE device_id =?"
             cursor = register_db.cursor()
             cursor.execute(sql,(deviceID,))
