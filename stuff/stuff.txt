@@ -1,3 +1,11 @@
 crontab -e   ## 57 23 * * * /usr/local/sbin/saggregator.py
 
 mkdir /var/local/sqlite/db
+
+adduser sentry
+usermod -aG dialout sentry
+usermod -aG www-data sentry
+
+## MUST ADD A LINK TO THIS FILE (sdeviced.service) TO:
+
+/etc/systemd/system/multi-user.target.wants/
