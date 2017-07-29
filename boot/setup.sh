@@ -1,15 +1,7 @@
 #!/bin/bash
 
-## ADD NEW USER 
-# echo "Creating new user...########################################"
-# sudo adduser --disabled-password --gecos "" suser
-# echo "suser:sE)@YRj:XNG}Y}dr&^a]MISz7-YEpKYD}mFm{" | sudo chpasswd
-# ech0 "New user created..."
 
-## REGENERATE SSH KEYS
-# echo "Regenerating ssh keys...####################################"
-# sudo rm /etc/ssh/ssh_host_*
-# sudo dpkg-reconfigure openssh-server
+
 
 ## PACKAGE MANAGEMENT
 
@@ -29,3 +21,22 @@ sudo apt-get upgrade -y
 
 # INSTALL LOCAL PACKAGES
 xargs -a <(awk '! /^ *(#|$)/' "packages-install.tmp") -r -- sudo apt-get install --no-install-recommends -y
+
+
+# REMOVE DIRECORIES
+sudo rm -rfv /opt/vc/src/hello_pi
+
+## REGENERATE SSH KEYS
+echo "Regenerating ssh keys...####################################"
+sudo rm /etc/ssh/ssh_host_*
+sudo dpkg-reconfigure openssh-server
+
+# CONFIGURE sshd_config
+sudo sed -i 's/^\(Port \).*/\12113/' /etc/ssh/sshd_config
+sudo sed -i 's/^\(PermitRootLogin \).*/\1no/' /etc/ssh/sshd_config
+sudo /etc/init.d/ssh restart
+
+## ADD NEW USER 
+echo "Creating new user...########################################"
+sudo adduser --disabled-password --gecos "" suser
+echo "New user created..."
