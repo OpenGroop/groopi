@@ -1,12 +1,22 @@
 #!/bin/sh
 
+expandFilesystem()
+
 deluser --remove-home pi
 adduser --no-create-home --disabled-password --disabled-login --gecos "" sentry
 usermod -aG dialout sentry
 usermod -aG www-data sentry
 
+usermod -aG staff suser
+usermod -aG www-data suser
+
+
 apt-get install -y `cat packages.install`
-mkdir -v /var/local/sqlite
+
+pip install pyudev
+
+mkdir -pv /srv/sqlite3/data
+mkdir -v /var/www/public
 
 
 # sudo iptables -A INPUT -p tcp -m tcp --dport 80  -j ACCEPT
