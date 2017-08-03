@@ -6,7 +6,7 @@ import os
 	
 LOG_PATH = os.path.join('/var','log','sentry','sentry.log')
 
-DB_ROOT            = os.path.join('/var','local','sqlite','db')
+DB_ROOT            = os.path.join('/srv','sqlite3','data')
 SENSORDATA_DB_PATH = os.path.join(DB_ROOT, 'sensordata.db')
 REGISTER_DB_PATH   = os.path.join(DB_ROOT, 'register.db')
 
