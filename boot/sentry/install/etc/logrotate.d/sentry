@@ -1,0 +1,11 @@
+/var/log/sentry/sentry.log {
+  size 1M
+  copytruncate
+  delaycompress
+  compress
+  missingok
+  notifempty
+  rotate 10
+}
+
+

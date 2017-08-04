@@ -1,4 +1,4 @@
 lighttpd
+php5{,-fpm,-cgi,-sqlite}
 python-pip
-php5
 sqlite3

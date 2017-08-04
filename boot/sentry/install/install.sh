@@ -31,8 +31,8 @@ pip install pyudev pyserial
 cp -rv usr/local/sbin /usr/local/
 cp -v lib/systemd/system/sdeviced.service /lib/systemd/system/sdeviced.service
 cp -v etc/init.d/sdeviced /etc/init.d/sdeviced
-
-
+cp -v etc/logrotate.d/sentry /etc/logrotate.d/sentry
+cp -v var/www/public /var/www/public
 ## ENVIRONMENTS
 ####################################
 
@@ -67,19 +67,19 @@ ln /lib/systemd/system/sdeviced.service /etc/systemd/system/multi-user.target.wa
 chmod 775 -R /usr/local/sbin
 mkdir /var/log/sentry
 chown sentry:sentry /var/log/sentry
+chmod 644 /etc/logrotate.d/sentry
 (crontab -l -u sentry; echo "57 23 * * * /usr/local/sbin/saggregator.py") | crontab -u sentry -
 
 
 
 # SETUP PUBLIC ENVIRONMENT
+sed -i 's/session.use_strict_mode = 0/session.use_strict_mode = 1/' /etc/php5/cli/php.ini
 
-#sed -i 's/session.use_strict_mode = 0/session.use_strict_mode = 1/' /etc/php5/cli/php.ini
+iptables -A INPUT -p tcp -m tcp --dport 80  -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
 
-# iptables -A INPUT -p tcp -m tcp --dport 80  -j ACCEPT
-# iptables -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
-
-# iptables -A OUTPUT -p tcp -m tcp --sport 80   -m state --state ESTABLISHED -j ACCEPT
-# iptables -A OUTPUT -p tcp -m tcp --sport 443  -m state --state ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -p tcp -m tcp --sport 80   -m state --state ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -p tcp -m tcp --sport 443  -m state --state ESTABLISHED -j ACCEPT
 
 # CREATE SQLITE3 TABLES
 
