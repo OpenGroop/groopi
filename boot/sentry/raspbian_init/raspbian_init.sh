@@ -1,5 +1,10 @@
 #!/bin/sh
 
+# ADD NEW USER 
+echo "Creating new user....."
+adduser --gecos "" suser
+usermod -aG sudo suser
+echo "New user created....."
 
 # IPTABLES
 echo "Configuring iptables....."
@@ -25,8 +30,8 @@ ip6tables -v -P OUTPUT DROP
 
 mkdir -v /etc/iptables
 
-cp -v /boot/sentry/ipt-restore /etc/network/if-pre-up.d/ipt-restore
-cp -v /boot/sentry/ipt-save /etc/network/if-post-down.d/ipt-save
+cp -v ipt-restore /etc/network/if-pre-up.d/ipt-restore
+cp -v ipt-save /etc/network/if-post-down.d/ipt-save
 
 chmod +x /etc/network/if-pre-up.d/ipt-restore
 chmod +x /etc/network/if-post-down.d/ipt-save
@@ -71,17 +76,63 @@ sed -i 's/^\(Port \).*/\12112/' /etc/ssh/sshd_config
 sed -i 's/^\(PermitRootLogin \).*/\1no/' /etc/ssh/sshd_config
 echo "sshd_config configured....."
 
-# ADD NEW USER 
-echo "Creating new user....."
-adduser --gecos "" suser
-usermod -aG sudo suser
-echo "New user created....."
-
 # HOSTNAME
 echo "Changing hostname....."
 sed -i 's/raspberrypi/sentry/' /etc/hostname
 sed -i 's/raspberrypi/sentry/' /etc/hosts
 echo "Hostname changed....."
+
+# EXPAND FILESYSTEM
+# Get the starting offset of the root partition
+PART_START=$(parted /dev/mmcblk0 -ms unit s p | grep "^2" | cut -f 2 -d:)
+[ "$PART_START" ] || return 1
+# Return value will likely be error for fdisk as it fails to reload the 
+# partition table because the root fs is mounted
+fdisk /dev/mmcblk0 <<EOF
+p
+d
+2
+n
+p
+2
+$PART_START
+
+p
+w
+EOF
+# ASK_TO_REBOOT=1
+
+# now set up an init.d script
+cat <<\EOF > /etc/init.d/resize2fs_once &&
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          resize2fs_once
+# Required-Start:
+# Required-Stop:
+# Default-Start: 2 3 4 5 S
+# Default-Stop:
+# Short-Description: Resize the root filesystem to fill partition
+# Description:
+### END INIT INFO
+
+. /lib/lsb/init-functions
+
+case "$1" in
+  start)
+    log_daemon_msg "Starting resize2fs_once" &&
+    resize2fs /dev/mmcblk0p2 &&
+    rm /etc/init.d/resize2fs_once &&
+    update-rc.d resize2fs_once remove &&
+    log_end_msg $?
+    ;;
+  *)
+    echo "Usage: $0 start" >&2
+    exit 3
+    ;;
+esac
+EOF
+chmod +x /etc/init.d/resize2fs_once &&
+update-rc.d resize2fs_once defaults &&
 
 echo "Rebooting machine....."
 echo "Login at suser@sentry -p 2112"

@@ -67,8 +67,7 @@ ln /lib/systemd/system/sdeviced.service /etc/systemd/system/multi-user.target.wa
 chmod 775 -R /usr/local/sbin
 mkdir /var/log/sentry
 chown sentry:sentry /var/log/sentry
-
-
+(crontab -l -u sentry; echo "57 23 * * * /usr/local/sbin/saggregator.py") | crontab -u sentry -
 
 
 
