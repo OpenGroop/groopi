@@ -1,16 +1,19 @@
 #!/bin/sh
 
+read -p "Enter hostname: " HOSTNAME
+read -p "Enter username: " USERNAME
+read -P "Enter SSH port: " SSH_PORT
 # ADD NEW USER 
 echo "Creating new user....."
-adduser --gecos "" suser
-usermod -aG sudo suser
+adduser --gecos "" $USERNAME
+usermod -aG sudo $USERNAME
 echo "New user created....."
 
 # IPTABLES
 echo "Configuring iptables....."
 iptables -v -A INPUT -i lo -j ACCEPT
 iptables -v -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
-iptables -v -A INPUT -p tcp --dport 2112 -j ACCEPT
+iptables -v -A INPUT -p tcp --dport $SSH_PORT -j ACCEPT
 iptables -v -A OUTPUT -o lo -j ACCEPT
 iptables -v -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 iptables -v -A OUTPUT -p tcp --dport 80  -j ACCEPT
@@ -71,14 +74,14 @@ echo "SSH keys regenerated....."
 
 # CONFIGURE sshd_config
 echo "Configuring sshd_config....."
-sed -i 's/^\(Port \).*/\12112/' /etc/ssh/sshd_config
+sed -i 's/^\(Port \).*/\1'"$SSH_PORT"'/' /etc/ssh/sshd_config
 sed -i 's/^\(PermitRootLogin \).*/\1no/' /etc/ssh/sshd_config
 echo "sshd_config configured....."
 
 # HOSTNAME
 echo "Changing hostname....."
-sed -i 's/raspberrypi/sentry/' /etc/hostname
-sed -i 's/raspberrypi/sentry/' /etc/hosts
+sed -i 's/raspberrypi/'"$HOSTNAME"'/' /etc/hostname
+sed -i 's/raspberrypi/'"$HOSTNAME"'/' /etc/hosts
 echo "Hostname changed....."
 
 # EXPAND FILESYSTEM
@@ -134,7 +137,7 @@ chmod +x /etc/init.d/resize2fs_once &&
 update-rc.d resize2fs_once defaults &&
 
 echo "Rebooting machine....."
-echo "Login at suser@sentry -p 2112"
+echo "Login at $USERNAME@$HOSTNAME -p $SSH_PORT"
 
 reboot
 
