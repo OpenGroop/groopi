@@ -10,7 +10,6 @@ echo "New user created....."
 echo "Configuring iptables....."
 iptables -v -A INPUT -i lo -j ACCEPT
 iptables -v -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
-iptables -v -A INPUT -p tcp --dport 22 -j ACCEPT
 iptables -v -A INPUT -p tcp --dport 2112 -j ACCEPT
 iptables -v -A OUTPUT -o lo -j ACCEPT
 iptables -v -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
@@ -30,8 +29,8 @@ ip6tables -v -P OUTPUT DROP
 
 mkdir -v /etc/iptables
 
-cp -v ipt-restore /etc/network/if-pre-up.d/ipt-restore
-cp -v ipt-save /etc/network/if-post-down.d/ipt-save
+cp -v etc/network/if-pre-up.d/ipt-restore /etc/network/if-pre-up.d/ipt-restore
+cp -v etc/network/if-post-down.d/ipt-save /etc/network/if-post-down.d/ipt-save
 
 chmod +x /etc/network/if-pre-up.d/ipt-restore
 chmod +x /etc/network/if-post-down.d/ipt-save
