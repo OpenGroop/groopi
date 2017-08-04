@@ -2,7 +2,7 @@
 
 read -p "Enter hostname: " HOSTNAME
 read -p "Enter username: " USERNAME
-read -P "Enter SSH port: " SSH_PORT
+read -p "Enter SSH port: " SSH_PORT
 # ADD NEW USER 
 echo "Creating new user....."
 adduser --gecos "" $USERNAME
