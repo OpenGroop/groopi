@@ -41,6 +41,7 @@ cp -v var/www/public /var/www/
 chown -v suser:suser /var/www/public
 sed -i 's:/var/www/html:/var/www/public:' /etc/lighttpd/lighttpd.conf
 echo "server.error-handler-404 = \"/home.php\"" >> /etc/lighttpd/lighttpd.conf
+service lighttpd reload
 
 # SETUP SQLITE3 ENVIRONMENT
 mkdir -pv /srv/sqlite3/data
@@ -68,32 +69,17 @@ mkdir /var/log/sentry
 chown sentry:sentry /var/log/sentry
 chmod 644 /etc/logrotate.d/sentry
 (crontab -l -u sentry; echo "57 23 * * * /usr/local/sbin/saggregator.py") | crontab -u sentry -
-
-
+systemctl daemon-reload
+service sdeviced start
 
 # SETUP PUBLIC ENVIRONMENT
 sed -i 's/session.use_strict_mode = 0/session.use_strict_mode = 1/' /etc/php5/cli/php.ini
+service php5-fpm reload
 
 iptables -A INPUT -p tcp -m tcp --dport 80  -j ACCEPT
 iptables -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
 
 iptables -A OUTPUT -p tcp -m tcp --sport 80   -m state --state ESTABLISHED -j ACCEPT
 iptables -A OUTPUT -p tcp -m tcp --sport 443  -m state --state ESTABLISHED -j ACCEPT
-
-# CREATE SQLITE3 TABLES
-
-
-
-# CONFIGURE SENTRY ENVIRONMENT
-
-
-
-# apt-get purge -y alsa-utils
-# find / -type f -name "*-old" |xargs rm -rf
-# rm -rf /var/backups/* /var/lib/apt/lists/* ~/.bash_history
-# find /var/log/ -type f |xargs rm -rf
-# cp /dev/null /etc/resolv.conf
-
-# poweroff
 
 exit 0
