@@ -14,8 +14,8 @@ adduser --no-create-home --disabled-password --disabled-login --gecos "" sentry
 # SET USERS TO GROUPS
 usermod -aG dialout sentry
 usermod -aG www-data sentry
-usermod -aG staff suser
-usermod -aG www-data suser
+# usermod -aG staff suser
+# usermod -aG www-data suser
 
 
 ## PACKAGES
@@ -38,7 +38,7 @@ cp -v var/www/public /var/www/
 
 
 # SETUP LIGHTTPD ENVIRONMENT
-chown -v suser:suser /var/www/public
+# chown -v suser:suser /var/www/public
 sed -i 's:/var/www/html:/var/www/public:' /etc/lighttpd/lighttpd.conf
 echo "server.error-handler-404 = \"/home.php\"" >> /etc/lighttpd/lighttpd.conf
 service lighttpd reload
@@ -62,7 +62,7 @@ chmod 664 /srv/sqlite3/data/register.db
 chmod 664 /srv/sqlite3/data/sensordata.db
 chmod 644 /srv/sqlite3/data/user.db
 
-# SETUP SENTRY ENVIRONMENT
+SETUP SENTRY ENVIRONMENT
 ln /lib/systemd/system/sdeviced.service /etc/systemd/system/multi-user.target.wants/
 chmod 775 -R /usr/local/sbin
 mkdir /var/log/sentry
