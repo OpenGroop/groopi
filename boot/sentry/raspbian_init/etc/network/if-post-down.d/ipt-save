@@ -1,0 +1,7 @@
+#!/bin/sh
+
+iptables-save > /etc/iptables/ipv4.rules
+ip6tables-save > /etc/iptables/ipv6.rules
+
+exit 0
+
