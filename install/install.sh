@@ -32,13 +32,12 @@ cp -rv usr/local/sbin /usr/local/
 cp -v lib/systemd/system/sdeviced.service /lib/systemd/system/sdeviced.service
 cp -v etc/init.d/sdeviced /etc/init.d/sdeviced
 cp -v etc/logrotate.d/sentry /etc/logrotate.d/sentry
-cp -v var/www/public /var/www/public
+cp -v var/www/public /var/www/
 ## ENVIRONMENTS
 ####################################
 
 
 # SETUP LIGHTTPD ENVIRONMENT
-mkdir -v /var/www/public
 chown -v suser:suser /var/www/public
 sed -i 's:/var/www/html:/var/www/public:' /etc/lighttpd/lighttpd.conf
 echo "server.error-handler-404 = \"/home.php\"" >> /etc/lighttpd/lighttpd.conf
