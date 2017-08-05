@@ -7,7 +7,7 @@
     if (isset($_POST['button']) && !empty($_POST['essid']) && !empty($_POST['psk'])) {
 		$cmd = 'sudo wpa_conf.py -s ' . $_POST['essid'] . ' -p ' . $_POST['psk'];
 		exec($cmd);
-		sleep(5);
+		sleep(10);
 		header('Location: settings_network.php');
 		exit;
 	}

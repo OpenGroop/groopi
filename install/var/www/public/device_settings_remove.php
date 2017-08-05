@@ -1,6 +1,7 @@
 <?php
 	include 'session_check.php';
 	include 'session_check_admin.php';
+	include 'constants.php';
 
 	$device_id = $_GET['id'];
 	$device_alias = $_GET['alias'];
@@ -15,7 +16,7 @@
 	if (isset($_POST['BTN_REMOVE']) ) {
 		// BEGIN REMOVING DEVICE FROM REGISTER.
 		try {
-			$pdo = new PDO($REGISTER_DB);
+			$pdo = new PDO(REGISTER_DB);
 		} catch (EXCEPTION $e) { die("Unable to connect: " . $e->getMessage()); }
 
 		// FIRST, WE MUST GET GRANULAR AND SUMMARY TABLES FOR DEVICE
@@ -42,7 +43,7 @@
 		// BEGIN REMOVING DEVICE GRANULAR AND SUMMARY TABLES
 		$tables = array($device_table_granular, $device_table_summary);
 		try {
-			$pdo = new PDO($SENSORDATA_DB);
+			$pdo = new PDO(SENSORDATA_DB);
 		} catch (EXCEPTION $e) { die("Unable to connect: " . $e->getMessage()); }
 
 		try {

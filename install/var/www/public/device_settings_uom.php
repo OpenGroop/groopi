@@ -1,7 +1,7 @@
 <?php
 	include 'session_check.php';
 	include 'session_check_admin.php';
-
+    include 'constants.php';
 	$device_id    = $_GET['id'];
 	$device_alias = $_GET['alias'];
 
@@ -9,7 +9,7 @@
 
     if (isset($_POST['BTN_TEMP']) && !empty($_POST['RADIO_TEMP']))  {
         try {
-            $pdo = new PDO('sqlite:/var/local/sqlite/db/register.db');
+            $pdo = new PDO(REGISTER_DB);
             } catch(EXCEPTION $e) { die('Unable to connect: ' . $e->getMessage()); }
 
         try {

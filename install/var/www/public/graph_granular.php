@@ -19,7 +19,7 @@ $interval     = $_GET['interval'];
 $uom          = $_GET['uom'];
 
 try {
-	$database = new PDO('sqlite:/var/local/sqlite/db/sensordata.db');
+	$database = new PDO(SENSORDATA_DB);
 	} catch(EXCEPTION $e) { die('Unable to connect: ' . $e->getMessage()); }
 
 try {

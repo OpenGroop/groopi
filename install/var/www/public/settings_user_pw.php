@@ -1,5 +1,6 @@
 <?php
 	include 'session_check.php';
+	include 'constants.php';
 
  	$msg = "";
 
@@ -7,9 +8,8 @@
 
         sleep(2);
 		$hash = '';
-		$PDO_DB = 'sqlite:/var/local/sqlite/db/user.db';
         try {
-            $pdo = new PDO($PDO_DB);
+            $pdo = new PDO(USER_DB);
             } catch(EXCEPTION $e) { die('Unable to connect: ' . $e->getMessage()); }
 
         try {

@@ -1,7 +1,7 @@
 <?php
 	include 'session_check.php';
 	include 'session_check_admin.php';
-
+	include 'constants.php';
 	$msg = "";
 
 	if (isset($_POST['BTN_USER_ADD']) ) {
@@ -12,7 +12,7 @@
 			$values = array($password,$_POST['USER_NAME']);
 
 			try {
-			$pdo = new PDO('sqlite:/var/local/sqlite/db/user.db');
+			$pdo = new PDO(USER_DB);
 			} catch(EXCEPTION $e) { die("Unable to connect" . $e->getMessage()); }
 
 			try {
