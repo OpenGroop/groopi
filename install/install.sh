@@ -90,10 +90,10 @@ echo "Reloading php5-fpm..."
 service php5-fpm reload
 
 echo "Appending rules to ipatables..."
-iptables -Av INPUT -p tcp -m tcp --dport 80  -j ACCEPT
-iptables -Av INPUT -p tcp -m tcp --dport 443 -j ACCEPT
+iptables -v -A INPUT -p tcp -m tcp --dport 80  -j ACCEPT
+iptables -v -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
 
-iptables -Av OUTPUT -p tcp -m tcp --sport 80   -m state --state ESTABLISHED -j ACCEPT
-iptables -Av OUTPUT -p tcp -m tcp --sport 443  -m state --state ESTABLISHED -j ACCEPT
+iptables -v -A OUTPUT -p tcp -m tcp --sport 80   -m state --state ESTABLISHED -j ACCEPT
+iptables -v -A OUTPUT -p tcp -m tcp --sport 443  -m state --state ESTABLISHED -j ACCEPT
 echo "Finished!"
 exit 0
