@@ -45,8 +45,10 @@ echo "Setting up lighttpd..."
 echo "Configuring lighttpd.conf..."
 sed -i 's:/var/www/html:/var/www/public:' /etc/lighttpd/lighttpd.conf
 echo "server.error-handler-404 = \"/home.php\"" >> /etc/lighttpd/lighttpd.conf
+lighty-enable-mod fastcgi
+lighty-enable-mod fastcgi-php
 echo "Reloading lighttpd..."
-service lighttpd reload
+service lighttpd force-reload
 
 # SETUP SQLITE3 ENVIRONMENT
 echo "Setting up sqlite3 databases..."
@@ -85,15 +87,19 @@ service sdeviced start
 # SETUP PUBLIC ENVIRONMENT
 echo "Setting up php5..."
 echo "Configuring php5/cli/php.ini..."
-sed -i 's/session.use_strict_mode = 0/session.use_strict_mode = 1/' /etc/php5/cli/php.ini
-echo "Reloading php5-fpm..."
-service php5-fpm reload
+# sed -i 's/session.use_strict_mode = 0/session.use_strict_mode = 1/' /etc/php5/cli/php.ini
+chown -Rv root:www-data /var/www/public
+chmod -Rv 755 /var/www/public
 
 echo "Appending rules to ipatables..."
 iptables -v -A INPUT -p tcp -m tcp --dport 80  -j ACCEPT
 iptables -v -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
-
 iptables -v -A OUTPUT -p tcp -m tcp --sport 80   -m state --state ESTABLISHED -j ACCEPT
 iptables -v -A OUTPUT -p tcp -m tcp --sport 443  -m state --state ESTABLISHED -j ACCEPT
-echo "Finished!"
+
+echo "Finished"
+echo "Rebooting system...."
+
+reboot
+
 exit 0
