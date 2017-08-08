@@ -2,6 +2,7 @@ lighttpd
 php5
 php5-common
 php5-cgi
+php5-gd
 php5-sqlite
 python-pip
 sqlite3
