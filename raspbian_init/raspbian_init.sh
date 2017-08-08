@@ -9,6 +9,11 @@ adduser --gecos "" $USERNAME
 usermod -aG sudo $USERNAME
 echo "New user created....."
 
+# TZDATA
+echo "Reconfiguring timezone....."
+dpkg-reconfigure tzdata
+echo "Timezone reconfigured....."
+
 # IPTABLES
 echo "Configuring iptables....."
 iptables -v -A INPUT -i lo -j ACCEPT
