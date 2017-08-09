@@ -88,8 +88,11 @@ service sdeviced start
 echo "Setting up php5..."
 echo "Configuring php5/cgi/php.ini..."
 sed -i 's/session.use_strict_mode = 0/session.use_strict_mode = 1/' /etc/php5/cgi/php.ini
-chown -Rv root:www-data /var/www/public
-chmod -Rv 755 /var/www/public
+echo "Setting ownership for public files....."
+chown -R root:www-data /var/www/public
+echo "Setting permissions for public files....."
+chmod -R 755 /var/www/public
+echo "Create softlink to jpgraph-4.0.2....."
 ln -sv /var/www/public/lib/jpgraph-4.0.2 /var/www/public/lib/jpgraph
 
 echo "Appending rules to ipatables..."
