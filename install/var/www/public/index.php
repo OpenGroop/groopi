@@ -3,6 +3,7 @@
 	session_start();
 	if (isset($_SESSION['valid'])) {
 		header('Location: home.php');
+		exit;
 	}
 	include 'constants.php';
 
