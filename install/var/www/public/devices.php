@@ -1,5 +1,6 @@
 <?php 
 	include 'session_check.php';
+	include 'constants.php';
 ?>
 
 <!DOCTYPE html>

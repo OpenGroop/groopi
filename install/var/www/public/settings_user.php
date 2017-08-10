@@ -1,15 +1,14 @@
 <?php
 	include 'session_check.php';
 	include 'session_check_admin.php';
-
-	$PDO_DB = 'sqlite:/var/local/sqlite/db/user.db';
+	include 'constants.php';
 
 	$id = $_GET['id'];
 	$_SESSION['varid']  = $id;
 	$user  = "";
 
 	try {
-		$pdo = new PDO($PDO_DB);
+		$pdo = new PDO(USER_DB);
 		} catch (EXCEPTION $e) {
 			die('Unable to connect: ' . $e->getMessage());
 		}

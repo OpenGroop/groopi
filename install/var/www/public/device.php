@@ -18,7 +18,7 @@
 
 	// CONNECT TO REGISTER DATABASE
 	try {
-    	$register_db = new PDO('sqlite:/var/local/sqlite/db/register.db');
+    	$register_db = new PDO(REGISTER_DB);
     	} catch(EXCEPTION $e) { die('Unable to connect: ' . $e->getMessage()); }
 
 	// SELECT ALL REGISTER DATA FOR DEVICE 
@@ -41,7 +41,7 @@
 
 	// CONNECT TO SENSORDATA DATABASE
 	try {
-		$sensordata_db = new PDO('sqlite:/var/local/sqlite/db/sensordata.db');
+		$sensordata_db = new PDO(SENSORDATA_DB);
     	} catch(EXCEPTION $e) { die('Unable to connect: ' . $e->getMessage()); }
 
 	// SELECT CURRENT TEMPERATURE (CELSIUS), HUMIDITY, AND LIGHT OUTPUT FOR DEVICE 

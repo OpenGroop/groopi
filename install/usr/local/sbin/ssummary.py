@@ -34,14 +34,14 @@ def getAOValue(valueList):
 	return f
 
 def getAPValue(valueList, indexList):
+	indxLength = len(indexList)
 	logging.debug('valueList length = %s', len(valueList))
 	logging.debug('indexList length = %s', len(indexList))
 	f = 0.0
 	for i in indexList:
 		f += valueList[i]
-	logging.debug('f = %s', f)
-	f = f / len(indexList)
-	logging.debug('f = %s', f)
+	if(indxLength > 0): 
+		f = f / len(indexList)
 	return f
 
 def getMaxValue(valueList):

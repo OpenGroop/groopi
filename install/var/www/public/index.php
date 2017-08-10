@@ -3,7 +3,9 @@
 	session_start();
 	if (isset($_SESSION['valid'])) {
 		header('Location: home.php');
+		exit;
 	}
+	include 'constants.php';
 
 	$auth_log = "/var/log/lighttpd/sentry-auth.log";
     $msg      = "Login";
@@ -15,7 +17,7 @@
 
 		sleep(2);
 		try {
-			$pdo = new PDO('sqlite:/var/local/sqlite/db/user.db');
+			$pdo = new PDO(USER_DB);
 			} catch(EXCEPTION $e) { die('Unable to connect: ' . $e->getMessage()); }
 
 	    try {

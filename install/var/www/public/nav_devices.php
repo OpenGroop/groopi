@@ -1,6 +1,6 @@
 <?php 
 	try {
-		$database = new PDO('sqlite:/var/local/sqlite/db/register.db');
+		$database = new PDO(REGISTER_DB);
 		} catch(EXCEPTION $e) { die('Unable to connect: ' . $e->getMessage()); }
 
 	try {

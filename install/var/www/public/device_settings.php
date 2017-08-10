@@ -1,13 +1,14 @@
 <?php 
 	include 'session_check.php';
 	include 'session_check_admin.php';
+	include 'constants.php';
 
 	$device_id = $_GET['deviceid'];
 	$device_alias = "";
 	$device_valid = 1;
 
     try {
-        $pdo = new PDO('sqlite:/var/local/sqlite/db/register.db');
+        $pdo = new PDO(REGISTER_DB);
         } catch(EXCEPTION $e) { die('Unable to connect: ' . $e->getMessage()); }
 
     try {

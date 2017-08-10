@@ -1,6 +1,7 @@
 <?php
 	include 'session_check.php';
 	include 'session_check_admin.php';
+    include 'constants.php';
 
 	$msg ="";
 
@@ -13,7 +14,7 @@
             $newPassword = password_hash($_POST['PW_NEW_1'], PASSWORD_BCRYPT, $options);
 
             try {
-                $pdo = new PDO('sqlite:/var/local/sqlite/db/user.db');
+                $pdo = new PDO(USER_DB);
                 } catch (EXCEPTION $e) {
                     die("Unable to connect: " . $e->getMessage());
                 }

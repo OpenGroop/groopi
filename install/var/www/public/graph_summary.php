@@ -4,13 +4,15 @@ require_once ('lib/jpgraph/src/jpgraph.php');
 require_once ('lib/jpgraph/src/jpgraph_line.php');
 require_once ('lib/jpgraph/src/jpgraph_mgraph.php');
 
+include 'constants.php';
+
 $device_table = $_GET['table'];
 $timeframe    = $_GET['timeframe'];
 $uom          = $_GET['uom'];
 
 // CONNECT TO SENSORDATA.DB
 try {
-	$db_conn = new PDO('sqlite:/var/local/sqlite/db/sensordata.db');
+	$db_conn = new PDO(SENSORDATA_DB);
 	} catch(EXCEPTION $e) {die('Unable to connect: ' . $e->getMessage());}
 
 

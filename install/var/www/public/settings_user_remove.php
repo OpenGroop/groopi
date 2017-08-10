@@ -1,7 +1,7 @@
 <?php
 	include 'session_check.php';
 	include 'session_check_admin.php';
-
+	include 'constants.php';
 	$msg = "(check all 5 boxes)";
 
 	function verifyRemove() {
@@ -24,7 +24,7 @@
 	if ( isset($_POST['BTN_REMOVE']) ) {
 		if (verifyRemove()) {
 			try {
-				$pdo = new PDO('sqlite:/var/local/sqlite/db/user.db');
+				$pdo = new PDO(USER_DB);
 				} catch (EXCEPTION $e) {
 				die("Unable to connect: " . $e->getMessage());
 				}

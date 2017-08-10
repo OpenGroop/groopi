@@ -1,7 +1,9 @@
 <?php 
 	include 'session_check_admin.php';
+    include 'constants.php';
+
     try {
-        $pdo = new PDO('sqlite:/var/local/sqlite/db/user.db');
+        $pdo = new PDO(USER_DB);
         } catch(EXCEPTION $e) { die('Unable to connect: ' . $e->getMessage()); }
 
     try {
