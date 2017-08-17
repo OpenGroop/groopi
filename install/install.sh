@@ -29,12 +29,14 @@ pip install pyudev pyserial
 
 # SENTRY PACKAGE
 echo "Getting sentry files..."
+cp -v usr/local/bin/wpa_conf.py /usr/local/bin/wpa_conf.py
 cp -rv usr/local/sbin /usr/local/
 cp -v lib/systemd/system/sdeviced.service /lib/systemd/system/sdeviced.service
 cp -v etc/init.d/sdeviced /etc/init.d/sdeviced
 cp -v etc/logrotate.d/sentry /etc/logrotate.d/sentry
 echo "Copying var/www/public -> /var/www/public..."
 cp -r var/www/public /var/www/
+
 ## ENVIRONMENTS
 ####################################
 
@@ -71,12 +73,18 @@ chmod -v 664 /srv/sqlite3/data/sensordata.db
 chmod -v 644 /srv/sqlite3/data/user.db
 
 # SETUP SENTRY ENVIRONMENT
-echo "Setting up sentry..."
+echo "Setting up sentry files..."
+echo "Setting up service file..."
 ln -v /lib/systemd/system/sdeviced.service /etc/systemd/system/multi-user.target.wants/
+echo "Setting up daemon files..."
 chmod -v 775 -R /usr/local/sbin
+echo "Setting up log files..."
 mkdir -v /var/log/sentry
 chown -v sentry:sentry /var/log/sentry
 chmod -v 644 /etc/logrotate.d/sentry
+echo "Setting up /usr/local/bin/wpa_conf.py..."
+chown -v root:www-data /usr/local/bin/wpa_conf.py
+chmod -v 550 /usr/local/bin/wpa_conf.py
 echo "Setting up crontab..."
 (crontab -l -u sentry; echo "57 23 * * * /usr/local/sbin/saggregator.py") | crontab -u sentry -
 echo "Reloading daemons..."
