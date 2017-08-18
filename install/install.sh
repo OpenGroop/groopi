@@ -1,7 +1,6 @@
 #!/bin/sh
 #########
 
-
 ## USERSPACE
 #############
 
@@ -56,11 +55,12 @@ service lighttpd force-reload
 echo "Setting up sqlite3 databases..."
 mkdir -pv /srv/sqlite3/data
 chmod 775 /srv/sqlite3/data
-
+echo "Setting up register.db..."
 sqlite3 /srv/sqlite3/data/register.db <<EOS
 	CREATE TABLE device_registers (id INTEGER PRIMARY KEY AUTOINCREMENT, device_id TEXT, device_alias TEXT, granular_table TEXT, summary_table TEXT, valid INTEGER, uom);
 EOS
 
+echo "Setting up user.db..."
 sqlite3 /srv/sqlite3/data/user.db <<EOS
 	CREATE TABLE hash(id INTEGER PRIMARY KEY AUTOINCREMENT, value TEXT, user TEXT);
 EOS
@@ -82,9 +82,6 @@ echo "Setting up log files..."
 mkdir -v /var/log/sentry
 chown -v sentry:sentry /var/log/sentry
 chmod -v 644 /etc/logrotate.d/sentry
-echo "Setting up /usr/local/bin/wpa_conf.py..."
-chown -v root:www-data /usr/local/bin/wpa_conf.py
-chmod -v 550 /usr/local/bin/wpa_conf.py
 echo "Setting up crontab..."
 (crontab -l -u sentry; echo "57 23 * * * /usr/local/sbin/saggregator.py") | crontab -u sentry -
 echo "Reloading daemons..."
@@ -103,6 +100,14 @@ chmod -R 755 /var/www/public
 echo "Create softlink to jpgraph-4.0.2....."
 ln -sv /var/www/public/lib/jpgraph-4.0.2 /var/www/public/lib/jpgraph
 
+# SETUP NETWORK ENVIRONMENT
+echo "Setting up network..."
+echo "Setting up /usr/local/bin/wpa_conf.py..."
+chown -v root:www-data /usr/local/bin/wpa_conf.py
+chmod -v 550 /usr/local/bin/wpa_conf.py
+echo "Setting up /etc/wpa_supplicant/wpa_supplicant.conf..."
+chown -v root:www-data /etc/wpa_supplicant/wpa_supplicant.conf
+chmod -v 660 /etc/wpa_supplicant/wpa_supplicant.conf
 echo "Appending rules to ipatables..."
 iptables -v -A INPUT -p tcp -m tcp --dport 80  -j ACCEPT
 iptables -v -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
