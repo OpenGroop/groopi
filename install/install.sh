@@ -13,9 +13,8 @@ adduser --no-create-home --disabled-password --disabled-login --gecos "" sentry
 # SET USERS TO GROUPS
 usermod -aG dialout sentry
 usermod -aG www-data sentry
-# usermod -aG staff suser
-# usermod -aG www-data suser
-#
+echo 'www-data    ALL=(ALL) NOPASSWD: /usr/local/bin/wpa_conf.py, /sbin/wpa_cli reconfigure' | EDITOR='tee -a' visudo
+
 
 ## PACKAGES
 ############
@@ -43,9 +42,19 @@ cp -r var/www/public /var/www/
 # SETUP LIGHTTPD ENVIRONMENT
 # chown -v suser:suser /var/www/public
 echo "Setting up lighttpd..."
+echo "Configuring SSL..."
+mkdir -v /etc/lighttpd/ssl
+openssl req -x509 -newkey rsa:4096 -keyout /etc/lighttpd/ssl/keycert.pem -out /etc/lighttpd/ssl/keycert.pem -days 365 -nodes -subj '/CN=groopi'
+chown -Rv root:root /etc/lighttpd/ssl/
+chmod -Rv 600 /etc/lighttpd/ssl/
 echo "Configuring lighttpd.conf..."
-sed -i 's:/var/www/html:/var/www/public:' /etc/lighttpd/lighttpd.conf
-echo "server.error-handler-404 = \"/home.php\"" >> /etc/lighttpd/lighttpd.conf
+rm -v /etc/lighttpd/lighttpd.conf
+cp -v etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf
+chown -v root:root /etc/lighttpd/lighttpd.conf
+chmod -v 644 /etc/lighttpd/lighttpd.conf
+# sed -i 's:/var/www/html:/var/www/public:' /etc/lighttpd/lighttpd.conf
+# echo "server.error-handler-404 = \"/home.php\"" >> /etc/lighttpd/lighttpd.conf
+echo "Enabling fast-cgi..."
 lighty-enable-mod fastcgi
 lighty-enable-mod fastcgi-php
 echo "Reloading lighttpd..."
