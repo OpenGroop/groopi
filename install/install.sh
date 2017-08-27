@@ -44,23 +44,20 @@ cp -r var/www/public /var/www/
 echo "Setting up lighttpd..."
 echo "Configuring lighttpd.conf..."
 
-# cp -v /etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf.copy
-# rm -v /etc/lighttpd/lighttpd.conf
-# cp -v etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf
-# chown -v root:root /etc/lighttpd/lighttpd.conf
-# chmod -v 644 /etc/lighttpd/lighttpd.conf
+cp -v /etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf.copy
+rm -v /etc/lighttpd/lighttpd.conf
+cp -v etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf
+chown -v root:root /etc/lighttpd/lighttpd.conf
+chmod -v 644 /etc/lighttpd/lighttpd.conf
 
-sed -i 's:/var/www/html:/var/www/public:' /etc/lighttpd/lighttpd.conf
-echo "\r\n" >> /etc/lighttpd/lighttpd.conf
-echo "server.error-handler-404 = \"/home.php\"" >> /etc/lighttpd/lighttpd.conf
-echo "\r\n" >> /etc/lighttpd/lighttpd.conf
-echo "ssl.use-sslv3 = \"disable\"" >> /etc/lighttpd/lighttpd.conf
-echo "\r\n" >> /etc/lighttpd/lighttpd.conf
-echo "$SERVER["socket"] == \":80\" {" >> /etc/lighttpd/lighttpd.conf
-echo "  $HTTP["host"] =~ "(.*)" {" >> /etc/lighttpd/lighttpd.conf
-echo "    url.redirect = ( \"^/(.*)\" => \"https://%1/$1\" )" >> /etc/lighttpd/lighttpd.conf
-echo "  }" >> /etc/lighttpd/lighttpd.conf
-echo "}" >> /etc/lighttpd/lighttpd.conf
+# sed -i 's:/var/www/html:/var/www/public:' /etc/lighttpd/lighttpd.conf
+# echo "server.error-handler-404 = \"/home.php\"" >> /etc/lighttpd/lighttpd.conf
+# echo "ssl.use-sslv3 = \"disable\"" >> /etc/lighttpd/lighttpd.conf
+# echo "\$SERVER[\"socket\"] == \":80\" {" >> /etc/lighttpd/lighttpd.conf
+# echo "  \$HTTP[\"host\"] =~ \"(.*)\" {" >> /etc/lighttpd/lighttpd.conf
+# echo "    url.redirect = ( \"^/(.*)\" => \"https://%1/\$1\" )" >> /etc/lighttpd/lighttpd.conf
+# echo "  }" >> /etc/lighttpd/lighttpd.conf
+# echo "}" >> /etc/lighttpd/lighttpd.conf
 
 
 echo "Configuring SSL..."
