@@ -42,13 +42,6 @@ cp -r var/www/public /var/www/
 # SETUP LIGHTTPD ENVIRONMENT
 # chown -v suser:suser /var/www/public
 echo "Setting up lighttpd..."
-echo "Configuring SSL..."
-mkdir -v /etc/lighttpd/ssl
-openssl req -x509 -newkey rsa:4096 -keyout /etc/lighttpd/ssl/keycert.pem -out /etc/lighttpd/ssl/keycert.pem -days 365 -nodes -subj '/CN=groopi'
-chown -Rv root:root /etc/lighttpd/ssl/
-chmod -Rv 600 /etc/lighttpd/ssl/
-lighty-enable-mod ssl
-sed -i 's:server.pem:ssl/keycert.pem:' /etc/lighttpd/conf-enabled/10-ssl.conf
 echo "Configuring lighttpd.conf..."
 cp -v /etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf.copy
 rm -v /etc/lighttpd/lighttpd.conf
@@ -68,6 +61,13 @@ chmod -v 644 /etc/lighttpd/lighttpd.conf
 # echo "ssl.use-sslv2 = \"disable\"" >> /etc/lighttpd/lighttpd.conf
 # echo "ssl.use-sslv3 = \"disable\"" >> /etc/lighttpd/lighttpd.conf
 
+echo "Configuring SSL..."
+mkdir -v /etc/lighttpd/ssl
+openssl req -x509 -newkey rsa:4096 -keyout /etc/lighttpd/ssl/keycert.pem -out /etc/lighttpd/ssl/keycert.pem -days 365 -nodes -subj '/CN=groopi'
+chown -Rv root:root /etc/lighttpd/ssl/
+chmod -Rv 600 /etc/lighttpd/ssl/
+lighty-enable-mod ssl
+sed -i 's:server.pem:ssl/keycert.pem:' /etc/lighttpd/conf-enabled/10-ssl.conf
 
 
 echo "Enabling fast-cgi..."

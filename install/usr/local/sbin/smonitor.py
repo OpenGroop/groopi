@@ -22,6 +22,7 @@ context = pyudev.Context()
 monitor = pyudev.Monitor.from_netlink(context)
 monitor.filter_by(TTY)
 
+# CHECKS IF DEVICE IS ALREADY PLUGGED IN
 for device in context.list_devices(subsystem='tty'):
 	if device['DEVNAME'].find('ttyACM') > -1:
 		devname = device['DEVNAME']
@@ -29,6 +30,8 @@ for device in context.list_devices(subsystem='tty'):
 		logging.debug('ACM device: %s', devname)
 		establishConnections(devname)
 		time.sleep(2)
+
+# LISTENS FOR DEVICE TO BE PLUGGED IN
 try:
 	for device in iter(monitor.poll, None):
 #		print device.items()
