@@ -13,7 +13,7 @@ adduser --no-create-home --disabled-password --disabled-login --gecos "" sentry
 # SET USERS TO GROUPS
 usermod -aG dialout sentry
 usermod -aG www-data sentry
-echo 'www-data    ALL=(ALL) NOPASSWD: /usr/local/bin/wpa_conf.py, /sbin/wpa_cli reconfigure' | EDITOR='tee -a' visudo
+echo 'www-data    ALL=(ALL) NOPASSWD: /usr/local/bin/wpa_conf.py, /usr/local/bin/backupdbs.sh, /usr/local/bin/restoredbs.sh, /sbin/wpa_cli reconfigure' | EDITOR='tee -a' visudo
 
 
 ## PACKAGES
@@ -27,11 +27,17 @@ pip install pyudev pyserial
 
 # SENTRY PACKAGE
 echo "Getting sentry files..."
-cp -v usr/local/bin/wpa_conf.py /usr/local/bin/wpa_conf.py
-cp -rv usr/local/sbin /usr/local/
-cp -v lib/systemd/system/sdeviced.service /lib/systemd/system/sdeviced.service
-cp -v etc/init.d/sdeviced /etc/init.d/sdeviced
-cp -v etc/logrotate.d/sentry /etc/logrotate.d/sentry
+# cp -v usr/local/bin/wpa_conf.py /usr/local/bin/wpa_conf.py
+cp -v usr/local/bin/* /usr/local/bin/
+cp -v usr/local/sbin/* /usr/local/sbin/
+cp -v lib/systemd/system/* /lib/systemd/system/
+cp -v etc/init.d/* /etc/init.d/
+cp -v etc/logrotate.d/* /etc/logrotate.d/
+# cp -v lib/systemd/system/sdeviced.service /lib/systemd/system/sdeviced.service
+# cp -v lib/systemd/system/susbd.service /lib/systemd/system/susbd.service
+# cp -v etc/init.d/sdeviced /etc/init.d/sdeviced
+# cp -v etc/init.d/susbd /etc/init.d/susbd
+# cp -v etc/logrotate.d/sentry /etc/logrotate.d/sentry
 echo "Copying var/www/public -> /var/www/public..."
 cp -r var/www/public /var/www/
 
@@ -40,13 +46,12 @@ cp -r var/www/public /var/www/
 
 
 # SETUP LIGHTTPD ENVIRONMENT
-# chown -v suser:suser /var/www/public
 echo "Setting up lighttpd..."
-echo "Configuring lighttpd.conf..."
 
-cp -v /etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf.copy
-rm -v /etc/lighttpd/lighttpd.conf
-cp -v etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf
+echo "Configuring lighttpd.conf..."
+# cp -v /etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf.copy
+# rm -v /etc/lighttpd/lighttpd.conf
+cp -vb etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf
 chown -v root:root /etc/lighttpd/lighttpd.conf
 chmod -v 644 /etc/lighttpd/lighttpd.conf
 
@@ -85,6 +90,12 @@ sqlite3 /srv/sqlite3/data/register.db <<EOS
 	CREATE TABLE device_registers (id INTEGER PRIMARY KEY AUTOINCREMENT, device_id TEXT, device_alias TEXT, granular_table TEXT, summary_table TEXT, valid INTEGER, uom);
 EOS
 
+echo "Setting up system.db..."
+sqlite3 /srv/sqlite3/data/system.db <<EOS
+	CREATE TABLE usb(valid INTEGER);
+	INSERT INTO usb(valid) VALUES(0);
+EOS
+
 echo "Setting up user.db..."
 sqlite3 /srv/sqlite3/data/user.db <<EOS
 	CREATE TABLE hash(id INTEGER PRIMARY KEY AUTOINCREMENT, value TEXT, user TEXT);
@@ -92,25 +103,34 @@ EOS
 
 touch /srv/sqlite3/data/sensordata.db
 
-chown -Rv www-data:www-data /srv/sqlite3/data
-chmod -v 664 /srv/sqlite3/data/register.db
-chmod -v 664 /srv/sqlite3/data/sensordata.db
-chmod -v 644 /srv/sqlite3/data/user.db
+chown -Rv www-data:www-data /srv/sqlite3
+chmod -v 664 /srv/sqlite3/data/*
 
 # SETUP SENTRY ENVIRONMENT
 echo "Setting up sentry files..."
-echo "Setting up service file..."
-ln -v /lib/systemd/system/sdeviced.service /etc/systemd/system/multi-user.target.wants/
-echo "Setting up daemon files..."
+
+echo "Setting up service files..."
+ln -sv /lib/systemd/system/sdeviced.service /etc/systemd/system/multi-user.target.wants/
+ln -sv /lib/systemd/system/susbd.service /etc/systemd/system/multi-user.target.wants/
+
+echo "Setting up /usr/local/sbin files..."
 chmod -v 775 -R /usr/local/sbin
+
+echo "Setting up /usr/local/bin files..."
+chown -v root:www-data /usr/local/bin/*
+chmod -v 550 /usr/local/bin/*
+
 echo "Setting up log files..."
 mkdir -v /var/log/sentry
 chown -v sentry:sentry /var/log/sentry
 chmod -v 644 /etc/logrotate.d/sentry
+
 echo "Setting up crontab..."
 (crontab -l -u sentry; echo "57 23 * * * /usr/local/sbin/saggregator.py") | crontab -u sentry -
+
 echo "Reloading daemons..."
 systemctl daemon-reload
+
 echo "Starting sdeviced..."
 service sdeviced start
 

@@ -7,6 +7,8 @@
 	$device_alias = "";
 	$device_valid = 1;
 
+	$remove = '';
+
     try {
         $pdo = new PDO(REGISTER_DB);
         } catch(EXCEPTION $e) { die('Unable to connect: ' . $e->getMessage()); }
@@ -22,6 +24,10 @@
         $statement = null;
         $pdo = null;
         } catch(EXCEPTION $e) { $pdo->rollback(); echo 'FAILED: ' . $e->getMessage(); }
+
+    if ($device_valid == 0) {
+    	$remove = '<a href="device_settings_remove.php?id='.$device_id.'&alias='.$device_alias.'" target="_self">REMOVE DEVICE</a>';
+    }
 ?>
 
 <html>
@@ -36,14 +42,15 @@
 		<div class="title-3">DEVICE: <?php echo $device_id; ?></div>
 		<div class="title-3">ALIAS: <?php echo $device_alias; ?></div><br>
 		<div class="nav-list">
-			<div class="nav-list-block"><a href="device_settings_rename.php?id=<?php echo $device_id ?>&alias=<?php echo $device_alias ?>" target="_self">DEVICE ALIAS</a></div>
-			<div class="nav-list-block"><a href="device_settings_uom.php?id=<?php echo $device_id ?>&alias=<?php echo $device_alias ?>" target="_self">TEMPERATURE FORMAT</a></div>
+			<div class="nav-list-block">
+				<a href="device_settings_rename.php?id=<?php echo $device_id ?>&alias=<?php echo $device_alias ?>" target="_self">DEVICE ALIAS</a>
+			</div>
+			<div class="nav-list-block">
+				<a href="device_settings_uom.php?id=<?php echo $device_id ?>&alias=<?php echo $device_alias ?>" target="_self">TEMPERATURE FORMAT</a>
+			</div>
+			<div class="nav-list-block">
+				<?php echo $remove ?>
+			</div>
 		</div>
-		<?php
-			if ($device_valid == 0 ) {
-				echo '<div><a href="device_settings_remove.php?id='.$device_id.'&alias='.$device_alias.'" target="_self">REMOVE DEVICE</a></div>';
-			}
-		?>
-
 	</body>
 </html>

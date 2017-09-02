@@ -1,0 +1,14 @@
+[Unit]
+Description=susbd service
+After=lighttpd.service
+
+[Service]
+Type=simple
+User=sentry
+PIDFile=/var/run/susbd.pid
+ExecStart=/usr/local/sbin/smonitorusb.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
