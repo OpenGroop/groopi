@@ -1,4 +1,4 @@
-<?php
+	<?php
 	include 'session_check.php';
 	include 'constants.php';
 
@@ -87,7 +87,7 @@
 	// DISPLAY LINK TO DEVICE SETTINGS FOR ADMIN ACCOUNT
 	function displayEdit($did) {
     	if ($_SESSION['userid'] < 3) {
-        	echo '<div><a class="setting-header" href="device_settings.php?deviceid=' . $did .'" target="_self">device settings</a></div>';
+        	echo '<div><a class="setting-header" href="device_settings.php?id=' . $did .'" target="_self">device settings</a></div>';
     	}
 	}
 

@@ -3,7 +3,7 @@
 	include 'session_check_admin.php';
 	include 'constants.php';
 
-	$device_id = $_GET['deviceid'];
+	$device_id = $_GET['id'];
 	$device_alias = "";
 	$device_valid = 1;
 
@@ -40,7 +40,7 @@
 
 		<div class="title"> DEVICE SETTINGS </div>
 		<div class="title-3">DEVICE: <?php echo $device_id; ?></div>
-		<div class="title-3">ALIAS: <?php echo $device_alias; ?></div><br>
+		<div class="title-3">ALIAS: <a href="device.php?id=<?php echo $device_id; ?>" target="_self" ><?php echo $device_alias; ?></a></div><br>
 		<div class="nav-list">
 			<div class="nav-list-block">
 				<a href="device_settings_rename.php?id=<?php echo $device_id ?>&alias=<?php echo $device_alias ?>" target="_self">DEVICE ALIAS</a>
