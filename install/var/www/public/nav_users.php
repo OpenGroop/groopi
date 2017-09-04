@@ -1,10 +1,10 @@
 <?php 
-	include 'session_check_admin.php';
+    include 'session_check_admin.php';
     include 'constants.php';
 
     try {
         $pdo = new PDO(USER_DB);
-        } catch(EXCEPTION $e) { die('Unable to connect: ' . $e->getMessage()); }
+    } catch (EXCEPTION $e) { die('Unable to connect: ' . $e->getMessage()); }
 
     try {
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -15,11 +15,11 @@
         $statement->closeCursor();
         $statement = null;
         $pdo = null;
-        } catch(EXCEPTION $e) {}
+    } catch (EXCEPTION $e) {}
 
-	foreach ($result as $row) {
-		$userid   = $row['id'];
-		$username = $row['user'];
-		echo '<div class="nav-list-block"><a href="settings_user.php?id='.$userid.'" target="_self" >'.$username.'</a></div>';
-		}
+    foreach ($result as $row) {
+        $userid   = $row['id'];
+        $username = $row['user'];
+        echo '<div class="nav-list-block"><a href="settings_user.php?id='.$userid.'" target="_self" >'.$username.'</a></div>';
+    }
 ?>

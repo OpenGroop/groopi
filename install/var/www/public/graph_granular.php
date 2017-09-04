@@ -1,8 +1,8 @@
 <?php // content="text/plain; charset=utf-8"
 session_start();
 if(!$_SESSION['valid'] == 1) {
-	exit;
-	}
+    exit;
+}
 
 include 'constants.php';
 
@@ -19,21 +19,21 @@ $interval     = $_GET['interval'];
 $uom          = $_GET['uom'];
 
 try {
-	$database = new PDO(SENSORDATA_DB);
-	} catch(EXCEPTION $e) { die('Unable to connect: ' . $e->getMessage()); }
+    $database = new PDO(SENSORDATA_DB);
+} catch (EXCEPTION $e) { die('Unable to connect: ' . $e->getMessage()); }
 
 try {
-	$database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	$database->beginTransaction();
-	$sql = "SELECT timestamp,".$uom.", humidity, ldr FROM ".$device_table.
-		" WHERE timestamp BETWEEN strftime('%s', 'now', '-".$timeframe.
-		" hours') AND strftime('%s','now') AND id % ".$interval." = 0";
-	$statement = $database->query($sql);
-	$result = $statement->fetchAll();
-	$statement->closeCursor();
-	$statement = null;
-	$database = null;
-	} catch(EXCEPTION $e) { $database->rollback(); echo 'FAILED: ' . $e->getMessage(); }
+    $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $database->beginTransaction();
+    $sql = "SELECT timestamp,".$uom.", humidity, ldr FROM ".$device_table.
+        " WHERE timestamp BETWEEN strftime('%s', 'now', '-".$timeframe.
+        " hours') AND strftime('%s','now') AND id % ".$interval." = 0";
+    $statement = $database->query($sql);
+    $result = $statement->fetchAll();
+    $statement->closeCursor();
+    $statement = null;
+    $database = null;
+} catch (EXCEPTION $e) { $database->rollback(); echo 'FAILED: ' . $e->getMessage(); }
 
 $tsArray   = [];
 $ldrArray  = [];
@@ -41,21 +41,21 @@ $tempArray = [];
 $humArray  = [];
 
 foreach($result as $array) {
-	array_push($tsArray,$array['timestamp']);
-	array_push($ldrArray,$array['ldr'] / 10);
-	array_push($tempArray,$array[$uom]);
-	array_push($humArray,$array['humidity']);
+    array_push($tsArray,$array['timestamp']);
+    array_push($ldrArray,$array['ldr'] / 10);
+    array_push($tempArray,$array[$uom]);
+    array_push($humArray,$array['humidity']);
 }
 
 for($i = 0; $i < sizeof($tsArray); $i++) {
-	if(!is_numeric($tempArray[$i])) {
-		if($i == 0) { $tempArray[$i] = $tempArray[$i + 1]; }
-		else        { $tempArray[$i] = $tempArray[$i - 1]; }
-	}
-	if(!is_numeric($humArray[$i])) {
-		if($i == 0) { $humArray[$i] = $humArray[$i + 1]; }
-		else        { $humArray[$i] = $humArray[$i - 1]; }
-	}
+    if(!is_numeric($tempArray[$i])) {
+        if($i == 0) { $tempArray[$i] = $tempArray[$i + 1]; }
+        else        { $tempArray[$i] = $tempArray[$i - 1]; }
+    }
+    if(!is_numeric($humArray[$i])) {
+        if($i == 0) { $humArray[$i] = $humArray[$i + 1]; }
+        else        { $humArray[$i] = $humArray[$i - 1]; }
+    }
     if(!is_numeric($ldrArray[$i])) {
         if($i == 0) { $ldrArray[$i] = $ldrArray[$i + 1]; }
         else        { $ldrArray[$i] = $ldrArray[$i - 1]; }
@@ -63,11 +63,11 @@ for($i = 0; $i < sizeof($tsArray); $i++) {
 }
 
 if ($uom == TEMP_F) {
-	$temp_lo = 32;
-	$temp_hi = 104;
+    $temp_lo = 32;
+    $temp_hi = 104;
 } else {
-	$temp_lo = 0;
-	$temp_hi = 40;
+    $temp_lo = 0;
+    $temp_hi = 40;
 }
 
 $width = 960;

@@ -11,7 +11,7 @@
     if (isset($_POST['BTN_DEV_NAME']) && !empty($_POST['TXT_DEV_NAME']))  {
         try {
             $pdo = new PDO(REGISTER_DB);
-            } catch(EXCEPTION $e) { die('Unable to connect: ' . $e->getMessage()); }
+        } catch (EXCEPTION $e) { die('Unable to connect: ' . $e->getMessage()); }
 
         try {
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -21,9 +21,9 @@
             $stmnt->execute(array($_POST['TXT_DEV_NAME'], $device_id));
             $pdo->commit();
             $pdo = null;
-            } catch(EXCEPTION $e) { $pdo->rollback(); echo 'FAILED: ' . $e->getMessage(); }
-            header("Location: device_settings.php?id=".$device_id);
-            exit;
+        } catch (EXCEPTION $e) { $pdo->rollback(); echo 'FAILED: ' . $e->getMessage(); }
+        header("Location: device_settings.php?id=".$device_id);
+        exit;
     }
 
 ?>
@@ -35,7 +35,6 @@
 	</head>
 	<body>
 		<?php include 'nav_main.php'; ?><br>
-
 		<div class="title">DEVICE SETTINGS:</div>
 		<div class="title-3">DEVICE: <?php echo $device_id; ?></div>
 		<div class="title-3">ALIAS: <?php echo $device_alias; ?></div><br>
@@ -46,6 +45,5 @@
                 <div class="form-button"><button type ="submit" name ="BTN_DEV_NAME">Apply</button></div>
             </form>
         </div>
-
 	</body>
 </html>

@@ -1,63 +1,58 @@
 <?php
-	include 'session_check.php';
-	include 'session_check_admin.php';
-	include 'constants.php';
-	$msg = "(check all 5 boxes)";
+    include 'session_check.php';
+    include 'session_check_admin.php';
+    include 'constants.php';
+    $msg = "(check all 5 boxes)";
 
-	function verifyRemove() {
-		$b = false;
-		if (isset($_POST['REMOVE_1']))	 {
-			if (isset($_POST['REMOVE_2'])) {
-				if (isset($_POST['REMOVE_3'])) {
-					if (isset($_POST['REMOVE_4'])) {
-						if (isset($_POST['REMOVE_5'])) {
-							$b = true;
-						}
-					}
-				}
-			}
-		}
-		return $b;
-	}
-
-
-	if ( isset($_POST['BTN_REMOVE']) ) {
-		if (verifyRemove()) {
-			try {
-				$pdo = new PDO(USER_DB);
-				} catch (EXCEPTION $e) {
-				die("Unable to connect: " . $e->getMessage());
-				}
-
-			try {
-				$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-				$pdo->beginTransaction();
-				$sql = "DELETE FROM hash WHERE id=?";
-				$statement = $pdo->prepare($sql);
-				$statement->execute(array($_SESSION['varid']));
-				$pdo->commit();
-				$statement->closeCursor();
-				$pdo = null;
-				} catch (EXCEPTION $e) {}
-			header('Location: settings_users.php');
-			exit;
-		} else {
-			$msg = "(ALL 5 BOXES MUST BE CHECKED)";
-		}
-	}
+    function verifyRemove() {
+        $b = false;
+        if (isset($_POST['REMOVE_1']))   {
+            if (isset($_POST['REMOVE_2'])) {
+                if (isset($_POST['REMOVE_3'])) {
+                    if (isset($_POST['REMOVE_4'])) {
+                        if (isset($_POST['REMOVE_5'])) {
+                            $b = true;
+                        }
+                    }
+                }
+            }
+        }
+        return $b;
+    }
 
 
+    if ( isset($_POST['BTN_REMOVE']) ) {
+        if (verifyRemove()) {
+            try {
+                $pdo = new PDO(USER_DB);
+            } catch (EXCEPTION $e) { die("Unable to connect: " . $e->getMessage()); }
 
+            try {
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $pdo->beginTransaction();
+                $sql = "DELETE FROM hash WHERE id=?";
+                $statement = $pdo->prepare($sql);
+                $statement->execute(array($_SESSION['varid']));
+                $pdo->commit();
+                $statement->closeCursor();
+                $pdo = null;
+            } catch (EXCEPTION $e) {}
+            header('Location: settings_users.php');
+            exit;
+        } else {
+            $msg = "(ALL 5 BOXES MUST BE CHECKED)";
+        }
+    }
 
 ?>
 <!DOCTYPE html>
 <html>
-	<head>
-		<title> Remove User | Settings | Sentry   </title>
+    <head>
+        <title> Remove User | Settings | Sentry   </title>
         <link rel="stylesheet" type="text/css" href="css/style.css" media="all" />
-	</head>
-	<body>
-		<?php include 'nav_main.php'; ?><br>
+    </head>
+    <body>
+        <?php include 'nav_main.php'; ?><br>
         <div class="title"> SETTINGS</div><br>
         <div class="title-2">USER: <?php echo $_SESSION['varuser']; ?></div><br>
         <div class="title-3"> REMOVE USER</div><br>
@@ -75,5 +70,5 @@
             </form>
         </div>
  
-	</body>
+    </body>
 </html>

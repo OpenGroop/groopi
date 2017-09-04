@@ -12,8 +12,8 @@ $uom          = $_GET['uom'];
 
 // CONNECT TO SENSORDATA.DB
 try {
-	$db_conn = new PDO(SENSORDATA_DB);
-	} catch(EXCEPTION $e) {die('Unable to connect: ' . $e->getMessage());}
+    $db_conn = new PDO(SENSORDATA_DB);
+} catch (EXCEPTION $e) {die('Unable to connect: ' . $e->getMessage());}
 
 
 try {
@@ -27,7 +27,7 @@ try {
     $statement->closeCursor();
     $statement = null;
     $db_conn = null;
-    } catch(EXCEPTION $e) { $database->rollback(); echo 'FAILED: ' . $e->getMessage(); }
+} catch (EXCEPTION $e) { $database->rollback(); echo 'FAILED: ' . $e->getMessage(); }
 
 
 $timestamps = [];
@@ -38,31 +38,31 @@ $hadpvList  = [];
 
 
 foreach ($result as $row) {
-	$timestamps[] = date("D M j", $row['timestamp']);
-	$tappvList[] = $row['tappv'];
-	$tadpvList[] = $row['tadpv'];
-	$happvList[] = $row['happv'];
-	$hadpvList[] = $row['hadpv'];
+    $timestamps[] = date("D M j", $row['timestamp']);
+    $tappvList[] = $row['tappv'];
+    $tadpvList[] = $row['tadpv'];
+    $happvList[] = $row['happv'];
+    $hadpvList[] = $row['hadpv'];
 }
 
 
 // file_put_contents('filename.txt', print_r($timestamps, true));
 
 if ($uom == "temp_f") {
-	foreach ($tappvList as &$pValue) {
-		$pValue = ($pValue * 1.8) + 32;
-	}
-	foreach ($tadpvList as &$dValue) {
-		$dValue = ($dValue * 1.8) + 32;
-	}
+    foreach ($tappvList as &$pValue) {
+        $pValue = ($pValue * 1.8) + 32;
+    }
+    foreach ($tadpvList as &$dValue) {
+        $dValue = ($dValue * 1.8) + 32;
+    }
 }
 
 if ($uom == "temp_f") {
-	$temp_lo = 35;
-	$temp_hi = 105;
+    $temp_lo = 35;
+    $temp_hi = 105;
 } else {
-	$temp_lo = 0;
-	$temp_hi = 40;
+    $temp_lo = 0;
+    $temp_hi = 40;
 }
 // Graph
 $tempGraph = new Graph(960,650);
@@ -169,13 +169,13 @@ $mgraph->Stroke();
 
 
 //foreach ($result as $row) {
-//	$timestamps[] = date("D M j", $row['timestamp']);
-//	$datayy[] = $row['tappv'];
-//	$datayy[] = $row['tadpv'];
-//	$datayy[] = $row['tminv'];
-//	$datayy[] = $row['tmaxv'];
-//	$datayy[] = $row['taov'];
-//	}
+//  $timestamps[] = date("D M j", $row['timestamp']);
+//  $datayy[] = $row['tappv'];
+//  $datayy[] = $row['tadpv'];
+//  $datayy[] = $row['tminv'];
+//  $datayy[] = $row['tmaxv'];
+//  $datayy[] = $row['taov'];
+//  }
 
 // Data must be in the format : open,close,min,max,median
 //$datay = array(
@@ -186,7 +186,7 @@ $mgraph->Stroke();
 //    38,49,32,64,45);
 
 
-// // Create a ne	w stock plot
+// // Create a ne   w stock plot
 // $tempPlot = new BoxPlot($datayy);
 // $tempPlot->SetCenter(false);
 

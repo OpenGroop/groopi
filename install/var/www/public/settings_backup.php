@@ -9,7 +9,7 @@
     // CONNECT TO SYSTEM DATABASE
     try {
         $system_db = new PDO(SYSTEM_DB);
-        } catch(EXCEPTION $e) { die('Unable to connect: ' . $e->getMessage()); }
+    } catch (EXCEPTION $e) { die('Unable to connect: ' . $e->getMessage()); }
 
     try {
         $system_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -20,7 +20,7 @@
         $statement->fetch(PDO::FETCH_BOUND);
         $statement = null;
         $system_db = null;
-        } catch(EXCEPTION $e) { echo 'FAILED: ' . $e->getMessage(); }    
+    } catch (EXCEPTION $e) { echo 'FAILED: ' . $e->getMessage(); }    
 
     if     ($valid == '') {$msg = "Error: USB validity not assigned.";}
     elseif ($valid == 0 ) {$msg = "No USB drive detected.<br>Plug in a USB drive and refresh this page.";}

@@ -138,9 +138,9 @@
                 echo '<div class="nav-charts-block"><a href="device.php?id='.$device_id.'&table='.$device_granular_table.'&timeframe=72&interval=90" target="_self"> 72 Hours </a></div>';
                 echo '</div>';
                 echo '<div class="nav-charts">';
-                echo '<div class="nav-charts-block"><a href="device.php?id='.$device_id.'&table='.$device_summary_table.'&timeframe=7&interval=1" target="_self"> 7 Days </a></div>';
-                echo '<div class="nav-charts-block"><a href="device.php?id='.$device_id.'&table='.$device_summary_table.'&timeframe=14&interval=1" target="_self"> 14 Days </a></div>';
-                echo '<div class="nav-charts-block"><a href="device.php?id='.$device_id.'&table='.$device_summary_table.'&timeframe=30&interval=1" target="_self"> 30 Days </a></div>';
+                    echo '<div class="nav-charts-block"><a href="device.php?id='.$device_id.'&table='.$device_summary_table.'&timeframe=7&interval=1" target="_self"> 7 Days </a></div>';
+                    echo '<div class="nav-charts-block"><a href="device.php?id='.$device_id.'&table='.$device_summary_table.'&timeframe=14&interval=1" target="_self"> 14 Days </a></div>';
+                    echo '<div class="nav-charts-block"><a href="device.php?id='.$device_id.'&table='.$device_summary_table.'&timeframe=30&interval=1" target="_self"> 30 Days </a></div>';
                 echo '</div>';
             }
             else {
@@ -150,16 +150,5 @@
             }
             echo '</div>';
         ?>
-<!--        <div class="nav-charts">
-            <div class="nav-charts-block"><a href="device.php?id=<?php echo $device_id?>&table=<?php echo $device_granular_table ?>&timeframe=24&interval=30" target="_self"> 24 Hours </a></div>
-            <div class="nav-charts-block"><a href="device.php?id=<?php echo $device_id?>&table=<?php echo $device_granular_table ?>&timeframe=48&interval=60" target="_self"> 48 Hours </a></div>
-            <div class="nav-charts-block"><a href="device.php?id=<?php echo $device_id?>&table=<?php echo $device_granular_table ?>&timeframe=72&interval=90" target="_self"> 72 Hours </a></div>
-        </div>
-        <div class="nav-charts">
-            <div class="nav-charts-block"><a href="device.php?id=<?php echo $device_id ?>&table=<?php echo $device_summary_table ?>&timeframe=7&interval=1" target="_self"> 7 Days </a></div>
-            <div class="nav-charts-block"><a href="device.php?id=<?php echo $device_id ?>&table=<?php echo $device_summary_table ?>&timeframe=14&interval=1" target="_self"> 14 Days </a></div>
-            <div class="nav-charts-block"><a href="device.php?id=<?php echo $device_id ?>&table=<?php echo $device_summary_table ?>&timeframe=30&interval=1" target="_self"> 30 Days </a></div>
-        </div>
- -->        <br>
     </body>
 </html>
