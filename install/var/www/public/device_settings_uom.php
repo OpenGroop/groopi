@@ -21,7 +21,7 @@
             $pdo->commit();
             $pdo = null;
             } catch(EXCEPTION $e) { $pdo->rollback(); echo 'FAILED: ' . $e->getMessage(); }
-            header("Location: device_settings.php?deviceid=".$device_id);
+            header("Location: device_settings.php?id=".$device_id);
             exit;
     }
 
