@@ -30,7 +30,7 @@
                 $newPassword = password_hash($_POST['PW_NEW_1'], PASSWORD_BCRYPT, $options);
 
                 try {
-                    $pdo = new PDO($PDO_DB);
+                    $pdo = new PDO(USER_DB);
                 } catch (EXCEPTION $e) { die("Unable to connect: " . $e->getMessage()); }
                 
                 try {
