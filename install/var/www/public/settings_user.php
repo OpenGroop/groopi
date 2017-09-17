@@ -1,46 +1,25 @@
 <?php
     include 'session_check.php';
     include 'session_check_admin.php';
-    include 'constants.php';
+    include 'form_user_password.php';
+    include 'form_user_remove.php';
+    require_once 'lib/groop/src/groop_db_user.php';
 
-    $id = $_GET['id'];
-    $_SESSION['varid']  = $id;
-    $user  = "";
+    $user = DBUser::getUser($_GET['id']);
 
-    try {
-        $pdo = new PDO(USER_DB);
-    } catch (EXCEPTION $e) { die('Unable to connect: ' . $e->getMessage()); }
-    
-    try {
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $pdo->beginTransaction();
-        $sql = "SELECT user FROM hash WHERE id=?";
-        $statement = $pdo->prepare($sql);
-        $statement->execute(array($id));
-        $statement->bindColumn('user', $user);
-        $statement->fetch(PDO::FETCH_BOUND);
-        $statement->closeCursor();
-        $pdo = null;
-    } catch (EXCEPTION $e) {}
-    
-    $_SESSION['varuser'] = $user;
-    $msg = "";
+    include 'header.php';
+    include 'nav_main.php';
 ?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <title> User | Settings | Sentry  </title>
-        <link rel="stylesheet" type="text/css" href="css/style.css" media="all" />
-    </head>
-    <body>
-        <?php include 'nav_main.php'; ?><br>
-        <div class="title">SETTINGS</div><br>
-        <div class="title-2">USER: <?php echo $user; ?></div><br>
-        <div><a href="settings_admin_password.php" target="_self">CHANGE PASSWORD</a></div>
-        <?php
-            if ($id > 2 ) {
-                echo '<div><a href="settings_user_remove.php" target="_self">REMOVE USER</a></div>';
-            }
-        ?>
-    </body>
-</html>
+<div id="body">
+<div>SETTINGS</div>
+<div>USER: <?php echo $user['username'];   ?></div>
+<div><?php printPasswordForm($user['id']); ?></div>
+
+<?php 
+if ($user['id'] > 2) {
+    echo '<div>'.printRemoveForm($user['id']).'</div>'.PHP_EOL;
+}
+?>
+
+</div> <!--/body-->
+<?php include 'footer.php'; ?>

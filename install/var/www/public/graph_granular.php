@@ -4,10 +4,11 @@ if(!$_SESSION['valid'] == 1) {
     exit;
 }
 
-include 'constants.php';
+ 
 
 date_default_timezone_set('America/Toronto');
 
+require_once ('lib/groop/src/groop_constants.php');
 require_once ('lib/jpgraph/src/jpgraph.php');
 require_once ('lib/jpgraph/src/jpgraph_line.php');
 require_once ('lib/jpgraph/src/jpgraph_date.php');
@@ -19,7 +20,7 @@ $interval     = $_GET['interval'];
 $uom          = $_GET['uom'];
 
 try {
-    $database = new PDO(SENSORDATA_DB);
+    $database = new PDO(Constants::SENSORDATA_DB);
 } catch (EXCEPTION $e) { die('Unable to connect: ' . $e->getMessage()); }
 
 try {
@@ -62,7 +63,7 @@ for($i = 0; $i < sizeof($tsArray); $i++) {
     }
 }
 
-if ($uom == TEMP_F) {
+if ($uom == Constants::TEMP_F) {
     $temp_lo = 32;
     $temp_hi = 104;
 } else {
