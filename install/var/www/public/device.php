@@ -26,57 +26,61 @@
         $chart_interval  = $_GET['interval'];
     }
 
-
-
     // DISPLAY LINK TO DEVICE SETTINGS FOR ADMIN ACCOUNT
     function displayEdit($did) {
         if ($_SESSION['userid'] < 3) {
-            echo '<div><a class="setting-header" href="device_settings.php?id=' . $did .'" target="_self">device settings</a></div>';
+            echo '<div class="device-settings"><a href="device_settings.php?id=' . $did .'" target="_self">DEVICE SETTINGS</a></div>'.PHP_EOL;
         }
     }
 
-    // DISPLAY LINKS TO CHARTS
+    // DISPLAY SUMMARY/GRANULAR GRAPHS
     function displayGraph($table, $tf, $intv, $uom) {
         if (strpos($table, "granular") > 0) {
-            echo '<div class="title-1">' . $tf . ' Hours</div>'.PHP_EOL;
-            echo '<div><img src="graph_granular.php?table='.$table.'&timeframe='.$tf.'&interval='.$intv.'&uom='.$uom.'" alt="graph.php"></div>'.PHP_EOL;
+            echo '<div class="graph"><img src="graph_granular.php?table='.$table.'&timeframe='.$tf.'&interval='.$intv.'&uom='.$uom.'" alt="graph.php"></div>'.PHP_EOL;
         }
 
         if (strpos($table, "summary") > 0) {
-            echo '<div class="title-1" >' . $tf . ' Days</div>'.PHP_EOL;
-            echo '<div><img src="graph_summary.php?table='.$table.'&timeframe='.$tf.'&interval='.$intv.'&uom='.$uom.'" alt="graph_summary.php"></div>'.PHP_EOL;
-    //      include 'graph_summary.php';
+            echo '<div class="graph"><img src="graph_summary.php?table='.$table.'&timeframe='.$tf.'&interval='.$intv.'&uom='.$uom.'" alt="graph_summary.php"></div>'.PHP_EOL;
         }
     }
 
-    include 'header.php';
-    include 'nav_main.php';
+    include 'page_template.php';
+    printHeader();
+    printBanner();
 ?>
-<div id="body">
-<div>DEVICES</div>            
-<div><?php echo $sthp->getAlias(); ?></div>
-<div>DEVICE: <?php echo $sthp->getId();?></div>
-<div><?php displayEdit($sthp->getId()); ?></div>
+<div id="content">
+<div><?php printTitle($sthp->getAlias()); ?></div>
+
 <div>
 <?php
     if ($sthp->getValid()) {
-        if ($sthp->getUnit() == Constants::TEMP_C) { echo '<div class="reading-block">' . round($readings['temp'], 1).'&#x2103</div>'.PHP_EOL; }
-        if ($sthp->getUnit() == Constants::TEMP_F) { echo '<div class="reading-block">' . round($readings['temp'], 1).'&#x2109</div>'.PHP_EOL; }
-        echo '<div>' .round($readings['humidity'], 1).'%RH</div>'.PHP_EOL;
-        echo '<div>Lights: ' .$readings['ldr'].'</div>'.PHP_EOL;
-        echo '<div>'.$readings['timestamp'].'</div>'.PHP_EOL;
-        // echo '<div><img src="'.GraphGranular::get($sthp, 24, 30).'" alt="graph"></div>'.PHP_EOL;
+
+        echo '<div class="device-reading">'.PHP_EOL;
+        echo '<div class="text-minor device-reading-ts">'.$readings['timestamp'].'</div>'.PHP_EOL;
+        if ($sthp->getUnit() == Constants::TEMP_C) { echo '<div class="device-reading-block">' . round($readings['temp'], 1).'&#x2103</div>'.PHP_EOL; }
+        if ($sthp->getUnit() == Constants::TEMP_F) { echo '<div class="device-reading-block">' . round($readings['temp'], 1).'&#x2109</div>'.PHP_EOL; }
+        echo '<div class="device-reading-block">' .round($readings['humidity'], 1).'%RH</div>'.PHP_EOL;
+        echo '<div class="device-reading-block">Lights: ' .$readings['ldr'].'</div>'.PHP_EOL;
+        echo '</div> <!--/device-reading-->'.PHP_EOL;
+
+
+
         displayGraph($chart_table, $chart_timeframe, $chart_interval, $sthp->getUnit());
-        echo '<div>'.PHP_EOL;
-        echo '<div><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getGranularTable().'&timeframe=24&interval=30" target="_self"> 24 Hours </a></div>'.PHP_EOL;
-        echo '<div><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getGranularTable().'&timeframe=48&interval=60" target="_self"> 48 Hours </a></div>'.PHP_EOL;
-        echo '<div><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getGranularTable().'&timeframe=72&interval=90" target="_self"> 72 Hours </a></div>'.PHP_EOL;
-        echo '</div>'.PHP_EOL;
-        echo '<div>'.PHP_EOL;
-            echo '<div><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getSummaryTable().'&timeframe=7&interval=1" target="_self"> 7 Days </a></div>'.PHP_EOL;
-            echo '<div><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getSummaryTable().'&timeframe=14&interval=1" target="_self"> 14 Days </a></div>'.PHP_EOL;
-            echo '<div><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getSummaryTable().'&timeframe=30&interval=1" target="_self"> 30 Days </a></div>'.PHP_EOL;
-        echo '</div>';
+
+        echo '<div class="charts">'.PHP_EOL;
+        echo '<div class="chart-block"><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getGranularTable().'&timeframe=24&interval=30" target="_self"> 24 HOURS </a></div>'.PHP_EOL;
+        echo '<div class="chart-block"><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getGranularTable().'&timeframe=48&interval=60" target="_self"> 48 HOURS </a></div>'.PHP_EOL;
+        echo '<div class="chart-block"><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getGranularTable().'&timeframe=72&interval=90" target="_self"> 72 HOURS </a></div>'.PHP_EOL;
+        echo '<div class="chart-block"><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getGranularTable().'&timeframe=144&interval=180" target="_self"> 144 HOURS </a></div>'.PHP_EOL;
+        echo '</div> <!--/charts-->'.PHP_EOL;
+
+        echo '<div class="charts">'.PHP_EOL;
+        echo '<div class="chart-block"><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getSummaryTable().'&timeframe=7&interval=1" target="_self"> 7 DAYS </a></div>'.PHP_EOL;
+        echo '<div class="chart-block"><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getSummaryTable().'&timeframe=14&interval=1" target="_self"> 14 DAYS </a></div>'.PHP_EOL;
+        echo '<div class="chart-block"><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getSummaryTable().'&timeframe=30&interval=1" target="_self"> 30 DAYS </a></div>'.PHP_EOL;
+        echo '<div class="chart-block"><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getSummaryTable().'&timeframe=60&interval=1" target="_self"> 60 DAYS </a></div>'.PHP_EOL;
+        echo '<div class="chart-block"><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getSummaryTable().'&timeframe=90&interval=1" target="_self"> 90 DAYS </a></div>'.PHP_EOL;
+        echo '</div> <!--/charts-->';
     }
     else {
         echo '<div>Device not connected</div>'.PHP_EOL;
@@ -85,5 +89,6 @@
     }
 ?>
 </div>
-</div> <!--/body-->
-<?php include 'footer.php'; ?>
+<div><?php displayEdit($sthp->getId()); ?></div>
+</div> <!--/content-->
+<?php printFooter(); ?>

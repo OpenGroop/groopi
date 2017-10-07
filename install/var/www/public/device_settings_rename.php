@@ -1,18 +1,26 @@
 <?php
     include 'session_check.php';
     include 'session_check_admin.php';
-    include 'device_settings_header.php';
-    include 'form_device_alias.php';
     require_once ('lib/groop/src/groop_device_register.php');
+    include 'page_template_ds.php';
+    include 'form_device_alias.php';
 
     $register = new DeviceRegister($_GET['id']);
 
-    include 'header.php';
-    include 'nav_main.php';
+    // HEADER
+    printHeader();
+
+    // BODY
+    printBanner();
 ?>
-<div id="body">
-<div><?php printHeaderBacklink($register); ?></div>
-<div>CHANGE ALIAS</div>
-<div><?php printForm($register->getId()); ?></div>
-</div> <!--/body-->
-<?php include 'footer.php'; ?>
+<div id="content">
+<div><?php printTitle($register->getAlias()) ?></div>
+<div><?php printDSHeader($register); ?></div>
+<div><?php printAliasForm($register->getId()); ?></div></br>
+<div><?php printDSBacklink($register) ?></div>
+</div> <!--/content-->
+
+<?php
+    // FOOTER
+    printFooter();
+?>

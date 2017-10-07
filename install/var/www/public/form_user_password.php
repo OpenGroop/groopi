@@ -19,8 +19,7 @@ require_once ('lib/groop/src/groop_db_user.php');
     function printPasswordForm($userid) {
         global $msg_pw;
         $action = $_SERVER['PHP_SELF'] .'?id='.$userid;
-        echo '<form role="form" action="'.htmlspecialchars($action).'" method="post">'.PHP_EOL;
-        echo '<div>CHANGE PASSWORD</div>'.PHP_EOL;
+        echo '<form class="form" role="form" action="'.htmlspecialchars($action).'" method="post">'.PHP_EOL;
         echo '<div><input type="password" name="TXT_PW_1" placeholder="NEW PASSWORD" required/></div>'.PHP_EOL;
         echo '<div><input type="password" name="TXT_PW_2" placeholder="CONFIRM PASSWORD" required/></div>'.PHP_EOL;
         echo '<div><button type="submit" name="BTN_PW">Submit</button>'.PHP_EOL;

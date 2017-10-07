@@ -48,7 +48,7 @@ class DBRegister {
             try {
                 $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $database->beginTransaction();
-                $sql = "SELECT  device_id FROM device_registers ORDER BY device_id";
+                $sql = "SELECT  device_id FROM device_registers ORDER BY device_alias";
                 $statement = $database->query($sql);
                 $result = $statement->fetchAlL(PDO::FETCH_ASSOC);
                 $statement->closeCursor();

@@ -1,24 +1,28 @@
 <?php
     include 'session_check.php';
     include 'session_check_admin.php';
-    include 'device_settings_header.php';
-    include 'form_device_remove.php';
     require_once ('lib/groop/src/groop_device_register.php');
+    include 'page_template_ds.php';
+    include 'form_device_remove.php';
 
     $register = new DeviceRegister($_GET['id']);
 
-    include 'header.php';
-    include 'nav_main.php';
+    // HEADER
+    printHeader();
+
+    // BODY
+    printBanner();
+?>
+<div id="content">
+<div><?php printTitle($register->getAlias()); ?></div>
+<div><?php printDSHeader($register); ?></div>
+<div><?php printDeviceRemoveWarning(); ?></div>
+<div><?php printDeviceRemoveForm($register->getId()); ?></div></br>
+<div><?php printDSBacklink($register) ?></div>
+</div> <!--/content-->
+<?php
+    // FOOTER
+    printFooter();
+
 ?>
 
-<div id="body">
-<div><?php printHeaderBacklink($register); ?></div>
-<div>REMOVE DEVICE</div>
-<div>
-<p>Removing this device will remove all data associated with this device/alias.<br>
-This cannot be undone. Once removed, ALL DATA WILL BE LOST.<br>
-All charts are images that can be saved. If you would like to save data, save a chart image.</p>
-</div>
-<div><?php printForm($register->getId())?></div>
-</div>
-<?php include 'footer.php' ?>

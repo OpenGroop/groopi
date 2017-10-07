@@ -1,16 +1,16 @@
 <?php
     include 'session_check.php';
     include 'session_check_admin.php';
+    include 'page_template.php';
     include 'form_backup_restore.php';
 
-    include 'header.php';
-    include 'nav_main.php';
+    printHeader();
+    printBanner();
 
 ?>
-<div id="body">
-<div> SETTINGS</div>
-<div>BACKUP/RESTORE DATA</div>
+<div id="content">
+<div><?php printTitle2('SETTINGS:', 'BACKUP/RESTORE') ?></div>
 <div><?php printBackupRestoreForm(); ?></div>
-</div> <!--/body-->
+</div> <!--/content-->
 
-<?php include 'footer.php'; ?>
+<?php printFooter() ?>

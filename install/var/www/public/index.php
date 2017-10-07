@@ -4,14 +4,16 @@
         header('Location: devices.php');
         exit;
     }
+    include 'page_template.php';
     include 'form_login.php';
-    include 'header.php';
+    printHeader();
+    printBanner();
 ?>
 
 <!-- BEGIN OUTPUT -->
-<div id="body">
-<div><?php printForm(); ?></div>
-</div> <!--/body-->
+<div id="content">
+<div class="index"><?php printLoginForm(); ?></div>
+</div> <!--/content-->
 <!-- END OUTPUT -->
 
-<?php include 'footer.php'; ?>
+<?php printFooter(); ?>

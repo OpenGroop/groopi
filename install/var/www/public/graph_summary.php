@@ -37,14 +37,24 @@ $tadpvList  = [];
 $happvList  = [];
 $hadpvList  = [];
 
+$tsArray = [];
 
 foreach ($result as $row) {
+    $tsArray[]   = $row['timestamp'];
     $timestamps[] = date("D M j", $row['timestamp']);
     $tappvList[] = $row['tappv'];
     $tadpvList[] = $row['tadpv'];
     $happvList[] = $row['happv'];
     $hadpvList[] = $row['hadpv'];
 }
+
+$tsStart = date("F j, Y", $tsArray[0]);
+$tsEnd   = date("F j, Y", $tsArray[sizeof($tsArray)-1]);
+
+$graphTitle1 = $timeframe . ' Days - ' . $tsStart . ' to ' . $tsEnd;
+$graphTitle2 = "\n\rAVERAGE DAY TEMP (RED) : AVERAGE NIGHT TEMP (BLUE)";
+$graphTitle3 = "\n\rAVERAGE DAY HUMIDITY (RED) : AVERAGE NIGHT HUMIDITY (BLUE)";
+
 
 
 // file_put_contents('filename.txt', print_r($timestamps, true));
@@ -71,7 +81,7 @@ $tempGraph->graph_theme = null;
 $tempGraph->SetScale('textint', $temp_lo, $temp_hi);
 $tempGraph->SetMargin(55,20,60,125);
 $tempGraph->title->SetMargin(20);
-$tempGraph->title->Set('AVERAGE DAY TEMP (RED) : AVERAGE NIGHT TEMP (BLUE)');
+$tempGraph->title->Set($graphTitle1 . $graphTitle2);
 $tempGraph->title->SetFont(FF_DV_SANSSERIF,FS_NORMAL,20);
 $tempGraph->SetTickDensity(TICKD_SPARSE, TICKD_VERYSPARSE);
 
@@ -119,7 +129,7 @@ $humGraph->graph_theme = null;
 $humGraph->SetScale('textint', 0, 99);
 $humGraph->SetMargin(55,20,60,125);
 $humGraph->title->SetMargin(20);
-$humGraph->title->Set('AVERAGE DAY HUMIDITY (RED) : AVERAGE NIGHT HUMIDITY (BLUE)');
+$humGraph->title->Set($graphTitle1 . $graphTitle3);
 $humGraph->title->SetFont(FF_DV_SANSSERIF,FS_NORMAL,20);
 $humGraph->SetTickDensity(TICKD_NORMAL, TICKD_VERYSPARSE);
 

@@ -13,7 +13,7 @@ try {
     $pdo->beginTransaction();
     $sql = 'INSERT INTO hash(value, user) VALUES(?,?)';
     $statement = $pdo->prepare($sql);
-    $statement->execute(array($hash,$user));
+    $statement->execute(array($hash,$username));
     $pdo->commit();
     $pdo = null;
 } catch (EXCEPTION $e) { die("Unable to commit: " . $e->getMessage());}

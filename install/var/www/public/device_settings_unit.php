@@ -1,22 +1,28 @@
 <?php
     include 'session_check.php';
     include 'session_check_admin.php';
-    include 'device_settings_header.php';
-    include 'form_device_unit.php';
     require_once ('lib/groop/src/groop_device_register.php');
+    include 'page_template_ds.php';
+    include 'form_device_unit.php';
 
     $register = new DeviceRegister($_GET['id']);
 
-    include 'header.php';
-    include 'nav_main.php';
+    // HEADER
+    printHeader();
+
+    // BODY
+    printBanner();
+?>
+<div id="content">
+<div><?php printTitle($register->getAlias()); ?></div>
+<div><?php printDSHeader($register); ?></div>
+<div><?php printTempFormatForm($register->getId()); ?></div></br>
+<div><?php printDSBacklink($register) ?></div>
+</div> <!--/content-->
+
+<?php
+    // FOOTER
+    printFooter();
 
 ?>
 
-<div id="body">
-<div><?php printHeaderBacklink($register); ?></div>
-<div>
-<div>TEMPERATURE FORMAT</div><br>
-<div><?php printForm($register->getId());?></div>
-</div> <!--/nav-block-->
-</div> <!--/body-->
-<?php include 'footer.php'; ?>

@@ -13,11 +13,22 @@
         }
     }
 
-    function printForm($device_id) {
+    function printDeviceRemoveWarning() {
+        echo '<div class="settings-subheading">'.PHP_EOL;
+        echo '<p>Removing this device will delete all data associated with this device/alias.<br>'.PHP_EOL;
+        echo 'This cannot be undone. Once removed, ALL DATA ASSOCIATED WITH THIS DEVICE WILL BE DELETED.<br>'.PHP_EOL;
+        echo 'All charts are images that can be saved. If you would like to save data, save a chart image.</p>'.PHP_EOL;
+        echo '</div>'.PHP_EOL;
+    }
+
+    function printDeviceRemoveForm($device_id) {
         $action = $_SERVER['PHP_SELF'] . "?id=" . $device_id;
-        echo '<form role="form" action="'.$action.'" method="post">'.PHP_EOL;
+        echo '<div>'.PHP_EOL;
+        echo '<div class="settings-header"><b>REMOVE DEVICE</b></div>'.PHP_EOL;
+        echo '<form class="form" role="form" action="'.$action.'" method="post">'.PHP_EOL;
         echo '<div><input type ="text" name="TXT_DEVICE" placeholder="ENTER DEVICE ID OR ALIAS" required></div>'.PHP_EOL;
         echo '<div><button type="SUBMIT" name="BTN_REMOVE">submit</button></div>'.PHP_EOL;
         echo '</form>'.PHP_EOL;
+        echo '</div>'.PHP_EOL;
     }
 ?>

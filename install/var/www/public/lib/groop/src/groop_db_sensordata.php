@@ -7,11 +7,11 @@
 
         static function delete(DeviceRegister $register) {
             $tables = array($register->getGranularTable(), $register->getSummaryTable());
-            
+
             try {
                 $pdo = new PDO(Constants::SENSORDATA_DB);
             } catch (EXCEPTION $e) { die("Unable to connect: " . $e->getMessage()); }
-            
+
             try {
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $pdo->beginTransaction();

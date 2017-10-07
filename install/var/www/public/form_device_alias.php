@@ -7,12 +7,15 @@
         exit;
     }
 
-    function printForm($device_id) {
+    function printAliasForm($device_id) {
         $action = $_SERVER['PHP_SELF'] . '?id=' . $device_id;
-        echo '<form role = "form" action = "'. htmlspecialchars($action).'" method = "post">'.PHP_EOL;
-        echo '<div><input type ="text" name="TXT_DEV_NAME" placeholder="ENTER NEW ALIAS" required autofocus></div>'.PHP_EOL;
-        echo '<div><button type ="submit" name ="BTN_DEV_NAME">Apply</button></div>'.PHP_EOL;
+        echo '<div>'.PHP_EOL;
+        echo '<div class="settings-header""><b>CHANGE ALIAS</b></div>'.PHP_EOL;
+        echo '<form class="form" role="form" action="'. htmlspecialchars($action).'" method="post">'.PHP_EOL;
+        echo '<div><input type="text" name="TXT_DEV_NAME" placeholder="ENTER NEW ALIAS" required></div>'.PHP_EOL;
+        echo '<div><button type="submit" name="BTN_DEV_NAME">Apply</button></div>'.PHP_EOL;
         echo '</form>'.PHP_EOL;
+        echo '</div>'.PHP_EOL;
     }
 
 ?>

@@ -1,34 +1,26 @@
 <?php 
-	include 'session_check.php';
-	include 'session_check_admin.php';
-    include 'device_settings_header.php';
+    include 'session_check.php';
+    include 'session_check_admin.php';
     require_once ('lib/groop/src/groop_device_register.php');
+
+    include 'page_template_ds.php';
 
     $register = new DeviceRegister($_GET['id']);
 
-	$remove = '';
+    // HEADER
+    printHeader();
 
-    if ($register->getValid() == 0) {
-    	$remove = '<a href="device_settings_remove.php?id=' . $register->getId() . '" target="_self">REMOVE DEVICE</a>';
-    }
+    // BODY
+    printBanner();
+?>
+<div id="content">
+<div><?php printTitle($register->getAlias()); ?></div>
+<div><?php printDSHeader($register); ?></div>
+<div><?php printDSNav($register); ?></div>
+</div> <!--/content-->
 
-    include 'header.php';
-    include 'nav_main.php';
+<?php
+    // FOOTER
+    printFooter();
 ?>
 
-<div id="body">
-<div><?php printHeader($register)?></div>
-<div>
-<div>
-<a href="device_settings_rename.php?id=<?php echo $register->getId(); ?>" target="_self">DEVICE ALIAS</a>
-</div>
-<div>
-<a href="device_settings_unit.php?id=<?php echo $register->getId(); ?>" target="_self">TEMPERATURE FORMAT</a>
-</div>
-<div>
-<?php echo $remove ?>
-</div>
-</div> <!--/nav-list-->
-</div> <!--/body-->
-
-<?php include 'footer.php'; ?>

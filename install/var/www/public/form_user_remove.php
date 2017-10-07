@@ -20,8 +20,7 @@
     function printRemoveForm($userid) {
         global $msg_remove;
         $action = $_SERVER['PHP_SELF'] .'?id='.$userid;
-        echo '<form role="form" action="'.htmlspecialchars($action).'" method="post">'.PHP_EOL;
-        echo '<div>REMOVE USER</div>'.PHP_EOL;
+        echo '<form class="form" role="form" action="'.htmlspecialchars($action).'" method="post">'.PHP_EOL;
         echo '<div><input type="text" name="TXT_USER_REMOVE" placeholder="ENTER USER NAME" required/></div>'.PHP_EOL;
         echo '<div><button type="submit" name="BTN_USER_REMOVE">Submit</button>'.PHP_EOL;
         echo '<div>'.$msg_remove.'</div>'.PHP_EOL;

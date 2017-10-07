@@ -147,6 +147,8 @@ ln -sv /var/www/public/lib/jpgraph-4.0.2 /var/www/public/lib/jpgraph
 
 # SETUP NETWORK ENVIRONMENT
 echo "Setting up network..."
+echo "Setting wpa_supplicant log-level to warning..."
+wpa_cli log_level warning
 echo "Setting up /usr/local/bin/wpa_conf.py..."
 chown -v root:www-data /usr/local/bin/wpa_conf.py
 chmod -v 550 /usr/local/bin/wpa_conf.py

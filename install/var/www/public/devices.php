@@ -1,12 +1,20 @@
 <?php 
     include 'session_check.php';
-    include 'header.php';
-    include 'nav_main.php';    
+    include 'page_template.php';
+    include 'devices_list.php';
+
+    // HEADER
+    printHeader();
+
+    // BODY
+    printBanner();
 ?>
+<div id="content">
+<div><?php printTitle('DEVICES'); ?></div>
+<div><?php printDevicesList(); ?></div>
+</div> <!--/content-->
 
-<div id="body">
-<div> DEVICES </div><br>
-<div><?php include 'device_list.php'; ?></div>    
-</div> <!--/body-->
-
-<?php include 'footer.php'; ?>
+<?php
+    // FOOTER
+    printFooter();
+?>

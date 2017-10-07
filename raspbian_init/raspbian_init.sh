@@ -65,6 +65,10 @@ echo "Cleaning apt cache....."
 apt-get clean
 echo "apt cache cleaned....."
 
+# FIX "'action 17' suspended" SYSLOG MESSAGES
+echo "Editing /etc/rsyslog.conf (disable 'action 17 suspended' messages)..."
+sed -i '/# The named pipe \/dev\/xconsole/,$d' /etc/rsyslog.conf
+
 # REMOVE DIRECORIES
 echo "Removing uneeded directories....."
 rm -rfv /opt/vc/src/hello_pi

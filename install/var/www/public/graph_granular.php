@@ -4,8 +4,6 @@ if(!$_SESSION['valid'] == 1) {
     exit;
 }
 
- 
-
 date_default_timezone_set('America/Toronto');
 
 require_once ('lib/groop/src/groop_constants.php');
@@ -63,15 +61,21 @@ for($i = 0; $i < sizeof($tsArray); $i++) {
     }
 }
 
+$tsStart = date("F j, Y", $tsArray[0]);
+$tsEnd   = date("F j, Y", $tsArray[sizeof($tsArray)-1]);
+
+$graphTitle1 = $timeframe . ' Hours - ' . $tsStart . ' to ' . $tsEnd;
+$graphTitle2 = "\n\rTEMPERATURE (RED) : HUMIDITY (BLUE) : LIGHT (BLACK)";
+
 if ($uom == Constants::TEMP_F) {
-    $temp_lo = 32;
-    $temp_hi = 104;
+    $temp_lo = 35;
+    $temp_hi = 105;
 } else {
     $temp_lo = 0;
     $temp_hi = 40;
 }
 
-$width = 960;
+$width = 950;
 $height = 650;
 // file_put_contents('filename.txt', print_r($tsArray, true));
 
@@ -87,9 +91,9 @@ $tempGraph->graph_theme = null;
 $tempGraph->SetTickDensity(TICKD_SPARSE, TICKD_SPARSE);
 
 $tempGraph->SetFrame();
-$tempGraph->SetMargin(50,50,40,110);
+$tempGraph->SetMargin(50,50,80,110);
 $tempGraph->SetMarginColor('white');
-$tempGraph->title->Set('TEMPERATURE (RED) : HUMIDITY (BLUE) : LIGHT (BLACK)');
+$tempGraph->title->Set($graphTitle1 . $graphTitle2);
 $tempGraph->title->SetMargin(20);
 $tempGraph->title->SetFont(FF_DV_SANSSERIF,FS_NORMAL,20);
 

@@ -8,9 +8,8 @@
         exit;
     }
 
-    function printForm() {
-        echo '<div>WIRELESS NETWORK CREDENTIALS</div>'.PHP_EOL;
-        echo '<form role="form" action="'.htmlspecialchars($_SERVER['PHP_SELF']).'" method="post">'.PHP_EOL;
+    function printWifiForm() {
+        echo '<form class="form" role="form" action="'.htmlspecialchars($_SERVER['PHP_SELF']).'" method="post">'.PHP_EOL;
         echo '<div> <input type="text"     name="TXT_ESSID" placeholder="ESSID"    required/></div>'.PHP_EOL;
         echo '<div> <input type="password" name="TXT_PSK"   placeholder="PASSWORD" required/></div>'.PHP_EOL;
         echo '<div> <button type="submit"  name="BTN_WIFI">APPLY</button></div>'.PHP_EOL;
