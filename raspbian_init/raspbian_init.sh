@@ -9,10 +9,26 @@ adduser --gecos "" $USERNAME
 usermod -aG sudo $USERNAME
 echo "New user created....."
 
+# RTC 
+echo "Configuring RTC components ..."
+
+echo "Configuring /etc/modules ..."
+echo 'i2c-bcm2708' >> /etc/modules
+echo 'i2c-dev' >> /etc/modules
+
+echo "Configuring /boot/config.txt ..."
+echo 'dtparam=i2c1=on' > /boot/config.txt
+echo 'dtparam=i2c_arm=on' >> /boot/config.txt
+echo 'dtoverlay=i2c-rtc,ds1307' >> /boot/config.txt
+
+echo "Configuring /lib/udev/hwclock-set ..."
+sed -i '7,9d' /lib/udev/hwclock-set
+
+
 # TZDATA
-echo "Reconfiguring timezone....."
-dpkg-reconfigure tzdata
-echo "Timezone reconfigured....."
+# echo "Reconfiguring timezone....."
+# dpkg-reconfigure tzdata
+# echo "Timezone reconfigured....."
 
 # IPTABLES
 echo "Configuring iptables....."
@@ -46,7 +62,10 @@ chmod +x /etc/network/if-post-down.d/ipt-save
 echo "iptables configured....."
 
 # UPDATE APT
-echo "Updating apt....."
+echo "Configuring /etc/apt/sources.list..."
+echo 'deb http://192.168.2.29/raspbian jessie main non-free contrib rpi' > /etc/apt/sources.list
+
+echo "Updating packages....."
 apt-get update
 echo "apt updated....."
 

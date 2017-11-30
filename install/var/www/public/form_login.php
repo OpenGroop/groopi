@@ -14,7 +14,8 @@
             $_SESSION['timeout']  = time();
             $_SESSION['userid']   = $login['id'];
             $_SESSION['username'] = $login['username'];
-            header('Location: devices.php');
+            $url = 'http://' . $_SERVER['HTTP_HOST'] . '/devices.php';
+            header("Location: $url");
             exit;
         } else {
             $msg = "Login failed...";

@@ -1,7 +1,8 @@
 <?php
     session_start();
     if (isset($_SESSION['valid'])) {
-        header('Location: devices.php');
+        $url = 'http://' . $_SERVER['HTTP_HOST'] . '/devices.php';
+        header("Location: $url");
         exit;
     }
     include 'page_template.php';

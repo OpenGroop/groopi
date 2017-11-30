@@ -1,13 +1,13 @@
 <?php
-$username = 'user';  // EDIT THIS VALUE
-$password = 'value'; // EDIT THIS VALUE
+$username = 'admin';  // EDIT THIS VALUE
+$password = 'opengroop'; // EDIT THIS VALUE
 $options = ['cost' => 9,];
 $hash = password_hash($password, PASSWORD_BCRYPT, $options);
 
 try {
     $pdo = new PDO('sqlite:/srv/sqlite3/data/user.db');
 } catch (EXCEPTION $e) { die("Unable to connect: " . $e->getMessage()); }
-                
+
 try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->beginTransaction();

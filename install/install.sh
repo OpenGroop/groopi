@@ -1,5 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 #########
+##
+echo "Reconfiguring tzdata ..."
+dpkg-reconfigure tzdata
+
+echo "Setting hwclock ..."
+echo date
+hwclock -w
+hwclock -r
 
 ## USERSPACE
 #############
@@ -13,7 +21,14 @@ adduser --no-create-home --disabled-password --disabled-login --gecos "" sentry
 # SET USERS TO GROUPS
 usermod -aG dialout sentry
 usermod -aG www-data sentry
-echo 'www-data    ALL=(ALL) NOPASSWD: /usr/local/bin/wpa_conf.py, /usr/local/bin/backupdbs.sh, /usr/local/bin/restoredbs.sh, /sbin/wpa_cli reconfigure' | EDITOR='tee -a' visudo
+echo 'www-data    ALL=(ALL) NOPASSWD: /usr/local/bin/wpa_conf.py, \
+                                      /usr/local/bin/backupdbs.sh, \
+                                      /usr/local/bin/restoredbs.sh, \
+                                      /usr/local/bin/iw-chan.sh, \
+                                      /usr/local/bin/hostapd-stop.sh, \
+                                      /usr/local/bin/hostapd-start.sh, \
+                                      /usr/local/bin/hostapd-reconf.sh \ 
+                                      '| EDITOR='tee -a' visudo
 
 
 ## PACKAGES
@@ -22,22 +37,16 @@ echo 'www-data    ALL=(ALL) NOPASSWD: /usr/local/bin/wpa_conf.py, /usr/local/bin
 # APT-GET PACKAGES
 apt-get install -y `cat packages.install`
 
+systemctl stop dnsmasq
+
 # PIP PACKAGES
 pip install pyudev pyserial
 
 # SENTRY PACKAGE
 echo "Getting sentry files..."
-# cp -v usr/local/bin/wpa_conf.py /usr/local/bin/wpa_conf.py
-cp -v usr/local/bin/* /usr/local/bin/
-cp -v usr/local/sbin/* /usr/local/sbin/
-cp -v lib/systemd/system/* /lib/systemd/system/
-cp -v etc/init.d/* /etc/init.d/
-cp -v etc/logrotate.d/* /etc/logrotate.d/
-# cp -v lib/systemd/system/sdeviced.service /lib/systemd/system/sdeviced.service
-# cp -v lib/systemd/system/susbd.service /lib/systemd/system/susbd.service
-# cp -v etc/init.d/sdeviced /etc/init.d/sdeviced
-# cp -v etc/init.d/susbd /etc/init.d/susbd
-# cp -v etc/logrotate.d/sentry /etc/logrotate.d/sentry
+cp -R -v etc/* /etc/
+cp -R -v lib/* /lib/
+cp -R -v usr/* /usr/
 echo "Copying var/www/public -> /var/www/public..."
 cp -r var/www/public /var/www/
 
@@ -49,20 +58,8 @@ cp -r var/www/public /var/www/
 echo "Setting up lighttpd..."
 
 echo "Configuring lighttpd.conf..."
-# cp -v /etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf.copy
-# rm -v /etc/lighttpd/lighttpd.conf
-cp -vb etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf
 chown -v root:root /etc/lighttpd/lighttpd.conf
 chmod -v 644 /etc/lighttpd/lighttpd.conf
-
-# sed -i 's:/var/www/html:/var/www/public:' /etc/lighttpd/lighttpd.conf
-# echo "server.error-handler-404 = \"/home.php\"" >> /etc/lighttpd/lighttpd.conf
-# echo "ssl.use-sslv3 = \"disable\"" >> /etc/lighttpd/lighttpd.conf
-# echo "\$SERVER[\"socket\"] == \":80\" {" >> /etc/lighttpd/lighttpd.conf
-# echo "  \$HTTP[\"host\"] =~ \"(.*)\" {" >> /etc/lighttpd/lighttpd.conf
-# echo "    url.redirect = ( \"^/(.*)\" => \"https://%1/\$1\" )" >> /etc/lighttpd/lighttpd.conf
-# echo "  }" >> /etc/lighttpd/lighttpd.conf
-# echo "}" >> /etc/lighttpd/lighttpd.conf
 
 
 echo "Configuring SSL..."
@@ -105,6 +102,7 @@ touch /srv/sqlite3/data/sensordata.db
 
 chown -Rv www-data:www-data /srv/sqlite3
 chmod -v 664 /srv/sqlite3/data/*
+php adduser.php
 
 # SETUP SENTRY ENVIRONMENT
 echo "Setting up sentry files..."
@@ -112,6 +110,8 @@ echo "Setting up sentry files..."
 echo "Setting up service files..."
 ln -sv /lib/systemd/system/sdeviced.service /etc/systemd/system/multi-user.target.wants/
 ln -sv /lib/systemd/system/susbd.service /etc/systemd/system/multi-user.target.wants/
+
+systemctl daemon-reload
 
 echo "Setting up /usr/local/sbin files..."
 chmod -v 775 -R /usr/local/sbin
@@ -126,7 +126,7 @@ chown -v sentry:sentry /var/log/sentry
 chmod -v 644 /etc/logrotate.d/sentry
 
 echo "Setting up crontab..."
-(crontab -l -u sentry; echo "57 23 * * * /usr/local/sbin/saggregator.py") | crontab -u sentry -
+crontab -l -u sentry; echo "57 23 * * * /usr/local/sbin/saggregator.py" | crontab -u sentry -
 
 echo "Reloading daemons..."
 systemctl daemon-reload
@@ -149,21 +149,55 @@ ln -sv /var/www/public/lib/jpgraph-4.0.2 /var/www/public/lib/jpgraph
 echo "Setting up network..."
 echo "Setting wpa_supplicant log-level to warning..."
 wpa_cli log_level warning
-echo "Setting up /usr/local/bin/wpa_conf.py..."
-chown -v root:www-data /usr/local/bin/wpa_conf.py
-chmod -v 550 /usr/local/bin/wpa_conf.py
+
 echo "Setting up /etc/wpa_supplicant/wpa_supplicant.conf..."
 chown -v root:www-data /etc/wpa_supplicant/wpa_supplicant.conf
 chmod -v 660 /etc/wpa_supplicant/wpa_supplicant.conf
+
 echo "Appending rules to ipatables..."
+iptables -N _uap0
+iptables -v -A _uap0 -i uap0 -p udp --dport 67:68 -j ACCEPT
+iptables -v -A _uap0 -o uap0 -p udp --sport 67:68 -m state --state ESTABLISHED -j ACEEPT
+iptables -v -A _uap0 -m limit --limit 2/min -j LOG --log-prefix 'IPT-UAP0: '
 iptables -v -A INPUT -p tcp -m tcp --dport 80  -j ACCEPT
 iptables -v -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
+iptables -v -A INPUT -i uap0 -j _uap0
 iptables -v -A OUTPUT -p tcp -m tcp --sport 80   -m state --state ESTABLISHED -j ACCEPT
 iptables -v -A OUTPUT -p tcp -m tcp --sport 443  -m state --state ESTABLISHED -j ACCEPT
+iptables -v -A OUTPUT -o uap0 -j _uap0
+
+# SETUP HOSTAPD
+
+echo "Setting up hostapd..."
+echo "Configuring hostapd.conf..."
+
+prefix="og-"
+line=$(ifconfig wlan0 | grep HWaddr )
+addr=${line:((${#line}-7)):5}
+essid=$prefix${addr/:/}
+echo 'ssid='$essid >> /etc/hostapd/hostapd.conf
+
+passphrase=$(head /dev/urandom | tr -dc a-z0-9 | head -c 8)
+echo 'wpa_passphrase='$passphrase >> /etc/hostapd/hostapd.conf
+
+echo 'DAEMON_CONF="/etc/hostapd/hostapd.conf"' >> /etc/default/hostapd
+update-rc.d hostapd defaults
+
+echo "Reconfiguring /etc/apt/sources.list ..."
+echo 'deb https://mirrordirector.raspbian.org/raspbian jessie main non-free contrib rpi' > /etc/apt/sources.list
 
 echo "Finished"
-echo "Rebooting system...."
+echo ""
+echo "*************************"
+echo ""
+echo "ESSID   : "$passphrase
+echo "PASSWORD: "$essid
 
-reboot
+echo ""
+echo "*************************" 
+echo ""
+echo "Shutting system down ...."
+
+poweroff
 
 exit 0

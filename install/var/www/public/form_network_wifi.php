@@ -1,10 +1,11 @@
 <?php
 
     if (isset($_POST['BTN_WIFI']) && !empty($_POST['TXT_ESSID']) && !empty($_POST['TXT_PSK'])) {
-        $cmd = 'sudo wpa_conf.py -s ' . $_POST['TXT_ESSID'] . ' -p ' . $_POST['TXT_PSK'];
-        exec($cmd);
+        exec('sudo hostapd-stop.sh');
+        exec('sudo hostapd-reconf.sh ' . $_POST['TXT_ESSID']);
+        exec('sudo wpa_conf.py -s ' . $_POST['TXT_ESSID'] . ' -p ' . $_POST['TXT_PSK']);
         sleep(10);
-        header('Location: settings_network.php');
+        exec('sudo hostapd-start.sh');
         exit;
     }
 
@@ -15,4 +16,5 @@
         echo '<div> <button type="submit"  name="BTN_WIFI">APPLY</button></div>'.PHP_EOL;
         echo '</form>'.PHP_EOL;
     }
+
 ?>

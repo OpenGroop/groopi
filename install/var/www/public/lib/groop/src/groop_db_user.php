@@ -76,7 +76,7 @@
             try {
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $pdo->beginTransaction();
-                $sql = "SELECT id, user FROM hash WHERE id > 1 ORDER BY user";
+                $sql = "SELECT id, user FROM hash ORDER BY id";
                 $statement = $pdo->query($sql);
                 $result = $statement->fetchAll();
                 $statement->closeCursor();

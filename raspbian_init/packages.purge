@@ -1,9 +1,11 @@
 alsa-utils
+avahi-daemon
 bluez
 bluez-firmware
 cifs-utils
 dpkg-dev
 ed
+fake-hwclock
 firmware-atheros
 firmware-ralink
 firmware-libertas

@@ -28,7 +28,7 @@
 
     // DISPLAY LINK TO DEVICE SETTINGS FOR ADMIN ACCOUNT
     function displayEdit($did) {
-        if ($_SESSION['userid'] < 3) {
+        if ($_SESSION['userid'] < 2) {
             echo '<div class="device-settings"><a href="device_settings.php?id=' . $did .'" target="_self">DEVICE SETTINGS</a></div>'.PHP_EOL;
         }
     }

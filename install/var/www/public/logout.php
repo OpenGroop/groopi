@@ -6,6 +6,7 @@
     setcookie(session_name(),'',0,'/');
     session_regenerate_id(true);
 
-    header('Location: index.php');
+    $url = 'http://' . $_SERVER['HTTP_HOST'] . '/index.php';
+    header("Location: $url");
     exit;
 ?>
