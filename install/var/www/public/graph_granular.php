@@ -6,11 +6,11 @@ if(!$_SESSION['valid'] == 1) {
 
 date_default_timezone_set('America/Toronto');
 
-require_once ('lib/groop/src/groop_constants.php');
-require_once ('lib/jpgraph/src/jpgraph.php');
-require_once ('lib/jpgraph/src/jpgraph_line.php');
-require_once ('lib/jpgraph/src/jpgraph_date.php');
-require_once ('lib/jpgraph/src/jpgraph_mgraph.php');
+require_once ('../lib/groop/src/groop_constants.php');
+require_once ('../lib/jpgraph/src/jpgraph.php');
+require_once ('../lib/jpgraph/src/jpgraph_line.php');
+require_once ('../lib/jpgraph/src/jpgraph_date.php');
+require_once ('../lib/jpgraph/src/jpgraph_mgraph.php');
 
 $device_table = $_GET['table'];
 $timeframe    = $_GET['timeframe'];
@@ -75,7 +75,7 @@ if ($uom == Constants::TEMP_F) {
     $temp_hi = 40;
 }
 
-$width = 950;
+$width = 925;
 $height = 650;
 // file_put_contents('filename.txt', print_r($tsArray, true));
 

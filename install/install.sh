@@ -1,8 +1,6 @@
 #!/bin/bash
 #########
 ##
-echo "Reconfiguring tzdata ..."
-dpkg-reconfigure tzdata
 
 echo "Setting hwclock ..."
 echo date
@@ -22,12 +20,14 @@ adduser --no-create-home --disabled-password --disabled-login --gecos "" sentry
 usermod -aG dialout sentry
 usermod -aG www-data sentry
 echo 'www-data    ALL=(ALL) NOPASSWD: /usr/local/bin/wpa_conf.py, \
+                                      /usr/local/bin/wpa_disconnect.sh, \
                                       /usr/local/bin/backupdbs.sh, \
                                       /usr/local/bin/restoredbs.sh, \
                                       /usr/local/bin/iw-chan.sh, \
                                       /usr/local/bin/hostapd-stop.sh, \
                                       /usr/local/bin/hostapd-start.sh, \
-                                      /usr/local/bin/hostapd-reconf.sh \ 
+                                      /usr/local/bin/hostapd-reconf.sh, \
+                                      /usr/local/bin/hwclock-set.sh \ 
                                       '| EDITOR='tee -a' visudo
 
 
@@ -35,8 +35,11 @@ echo 'www-data    ALL=(ALL) NOPASSWD: /usr/local/bin/wpa_conf.py, \
 ############
 
 # APT-GET PACKAGES
+apt-get update
+apt-get -y upgrade
 apt-get install -y `cat packages.install`
 
+systemctl stop hostapd
 systemctl stop dnsmasq
 
 # PIP PACKAGES
@@ -47,12 +50,11 @@ echo "Getting sentry files..."
 cp -R -v etc/* /etc/
 cp -R -v lib/* /lib/
 cp -R -v usr/* /usr/
-echo "Copying var/www/public -> /var/www/public..."
-cp -r var/www/public /var/www/
+echo "Copying var/www/* -> /var/www/..."
+cp -R var/www/* /var/www/
 
 ## ENVIRONMENTS
 ####################################
-
 
 # SETUP LIGHTTPD ENVIRONMENT
 echo "Setting up lighttpd..."
@@ -74,6 +76,9 @@ sed -i 's:server.pem:ssl/keycert.pem:' /etc/lighttpd/conf-enabled/10-ssl.conf
 echo "Enabling fast-cgi..."
 lighty-enable-mod fastcgi
 lighty-enable-mod fastcgi-php
+
+echo "Removing default direcory.."
+rm -rf /var/www/html
 
 echo "Reloading lighttpd..."
 service lighttpd force-reload
@@ -114,7 +119,8 @@ ln -sv /lib/systemd/system/susbd.service /etc/systemd/system/multi-user.target.w
 systemctl daemon-reload
 
 echo "Setting up /usr/local/sbin files..."
-chmod -v 775 -R /usr/local/sbin
+chown -v root:root /usr/local/sbin/*
+chmod -v 755 -R /usr/local/sbin/*
 
 echo "Setting up /usr/local/bin files..."
 chown -v root:www-data /usr/local/bin/*
@@ -143,7 +149,7 @@ chown -R root:www-data /var/www/public
 echo "Setting permissions for public files....."
 chmod -R 755 /var/www/public
 echo "Create softlink to jpgraph-4.0.2....."
-ln -sv /var/www/public/lib/jpgraph-4.0.2 /var/www/public/lib/jpgraph
+ln -sv /var/www/lib/jpgraph-4.0.2 /var/www/lib/jpgraph
 
 # SETUP NETWORK ENVIRONMENT
 echo "Setting up network..."
@@ -151,8 +157,8 @@ echo "Setting wpa_supplicant log-level to warning..."
 wpa_cli log_level warning
 
 echo "Setting up /etc/wpa_supplicant/wpa_supplicant.conf..."
-chown -v root:www-data /etc/wpa_supplicant/wpa_supplicant.conf
-chmod -v 660 /etc/wpa_supplicant/wpa_supplicant.conf
+chown -v root:www-data /etc/wpa_supplicant/wpa_supplicant.conf*
+chmod -v 660 /etc/wpa_supplicant/wpa_supplicant.conf*
 
 echo "Appending rules to ipatables..."
 iptables -N _uap0
@@ -166,8 +172,12 @@ iptables -v -A OUTPUT -p tcp -m tcp --sport 80   -m state --state ESTABLISHED -j
 iptables -v -A OUTPUT -p tcp -m tcp --sport 443  -m state --state ESTABLISHED -j ACCEPT
 iptables -v -A OUTPUT -o uap0 -j _uap0
 
-# SETUP HOSTAPD
 
+# SETTING UP /etc/dhcpcd.conf
+echo "Setting up /etc/dhcpcd.conf"
+echo 'denyintefaces uap0' >> /etc/dhcpcd.conf
+
+# SETUP HOSTAPD
 echo "Setting up hostapd..."
 echo "Configuring hostapd.conf..."
 

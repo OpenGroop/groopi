@@ -1,7 +1,8 @@
 <?php
-    include 'session_check.php';
-    require_once ('lib/groop/src/groop_constants.php');    
-    require_once ('lib/groop/src/groop_device_sthp.php');
+    require ('../session/session_check.php');
+    require_once ('../lib/groop/src/groop_constants.php');
+    require_once ('../lib/groop/src/groop_device_sthp.php');
+    require_once ('../page/page_template.php');
 
     // EQUATING VPD
     // $a = 17.27 * $temp;
@@ -29,7 +30,7 @@
     // DISPLAY LINK TO DEVICE SETTINGS FOR ADMIN ACCOUNT
     function displayEdit($did) {
         if ($_SESSION['userid'] < 2) {
-            echo '<div class="device-settings"><a href="device_settings.php?id=' . $did .'" target="_self">DEVICE SETTINGS</a></div>'.PHP_EOL;
+            echo '<div class="device-edit text-minor"><a href="device_settings.php?id=' . $did .'" target="_self">SENSOR SETTINGS</a></div>'.PHP_EOL;
         }
     }
 
@@ -44,13 +45,17 @@
         }
     }
 
-    include 'page_template.php';
     printHeader();
     printBanner();
+    printNavigation();
 ?>
+<hr>
 <div id="content">
+<div class="breadcrumbs spaced">
+<a href="devices.php" target="_self">SENSORS</a>
+</div>
 <div><?php printTitle($sthp->getAlias()); ?></div>
-
+<hr>
 <div>
 <?php
     if ($sthp->getValid()) {
@@ -62,17 +67,19 @@
         echo '<div class="device-reading-block">' .round($readings['humidity'], 1).'%RH</div>'.PHP_EOL;
         echo '<div class="device-reading-block">Lights: ' .$readings['ldr'].'</div>'.PHP_EOL;
         echo '</div> <!--/device-reading-->'.PHP_EOL;
+        displayEdit($sthp->getId());
 
-
+        echo '<hr>'.PHP_EOL;
 
         displayGraph($chart_table, $chart_timeframe, $chart_interval, $sthp->getUnit());
 
+        echo '<div class="charts-nav">'.PHP_EOL;
         echo '<div class="charts">'.PHP_EOL;
         echo '<div class="chart-block"><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getGranularTable().'&timeframe=24&interval=30" target="_self"> 24 HOURS </a></div>'.PHP_EOL;
         echo '<div class="chart-block"><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getGranularTable().'&timeframe=48&interval=60" target="_self"> 48 HOURS </a></div>'.PHP_EOL;
         echo '<div class="chart-block"><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getGranularTable().'&timeframe=72&interval=90" target="_self"> 72 HOURS </a></div>'.PHP_EOL;
         echo '<div class="chart-block"><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getGranularTable().'&timeframe=144&interval=180" target="_self"> 144 HOURS </a></div>'.PHP_EOL;
-        echo '</div> <!--/charts-->'.PHP_EOL;
+        echo '</div> <!--/.charts-->'.PHP_EOL;
 
         echo '<div class="charts">'.PHP_EOL;
         echo '<div class="chart-block"><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getSummaryTable().'&timeframe=7&interval=1" target="_self"> 7 DAYS </a></div>'.PHP_EOL;
@@ -80,15 +87,16 @@
         echo '<div class="chart-block"><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getSummaryTable().'&timeframe=30&interval=1" target="_self"> 30 DAYS </a></div>'.PHP_EOL;
         echo '<div class="chart-block"><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getSummaryTable().'&timeframe=60&interval=1" target="_self"> 60 DAYS </a></div>'.PHP_EOL;
         echo '<div class="chart-block"><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getSummaryTable().'&timeframe=90&interval=1" target="_self"> 90 DAYS </a></div>'.PHP_EOL;
-        echo '</div> <!--/charts-->';
+        echo '</div> <!--/.charts-->'.PHP_EOL;
+        echo '</div> <!--/.charts-nav-->'.PHP_EOL;
     }
     else {
         echo '<div>Device not connected</div>'.PHP_EOL;
         echo '<div>Last reading was recorded on:</div>'.PHP_EOL;
         echo '<div>' . $readings['timestamp'] .'<div><br>'.PHP_EOL;
+        displayEdit($sthp->getId());
     }
 ?>
 </div>
-<div><?php displayEdit($sthp->getId()); ?></div>
-</div> <!--/content-->
+</div> <!--/#content-->
 <?php printFooter(); ?>

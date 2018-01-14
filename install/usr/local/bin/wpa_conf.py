@@ -20,7 +20,7 @@ def main(argv):
             ssid = arg
         elif opt == '-p':
             psk = arg
-    s    = "network={\r\n\tssid=\"" + ssid +"\"\r\n\tpsk=\"" + psk + "\"\r\n}\r\n"
+    s = "network={\r\n\tssid=\"" + ssid +"\"\r\n\tpsk=\"" + psk + "\"\r\n}\r\n"
 
     with open(conf, 'a') as file:
         file.write(s)

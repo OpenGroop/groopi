@@ -1,6 +1,6 @@
 #!/bin/bash
 
-prefix="og-"
+prefix="iq-"
 
 line=$(ifconfig wlan0 | grep HWaddr )
 

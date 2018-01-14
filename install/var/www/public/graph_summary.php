@@ -1,9 +1,9 @@
 <?php // content="text/plain; charset=utf-8"
 
-require_once ('lib/groop/src/groop_constants.php');
-require_once ('lib/jpgraph/src/jpgraph.php');
-require_once ('lib/jpgraph/src/jpgraph_line.php');
-require_once ('lib/jpgraph/src/jpgraph_mgraph.php');
+require_once ('../lib/groop/src/groop_constants.php');
+require_once ('../lib/jpgraph/src/jpgraph.php');
+require_once ('../lib/jpgraph/src/jpgraph_line.php');
+require_once ('../lib/jpgraph/src/jpgraph_mgraph.php');
 
 
 

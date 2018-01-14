@@ -7,6 +7,11 @@ html, body {
 	height: 100%;
 }
 
+#header   { grid-area: header;}
+#nav-main { grid-area: nav-main;}
+#content  { grid-area: content;}
+#footer   { grid-area: footer;}
+
 a {
 	color: #3333ff;
 }
@@ -16,31 +21,43 @@ a:visited {
 }
 
 #container {
-        min-height: 100%;
-        position: relative;
+	display: grid;
+	min-height: 100%;
+	grid-gap: 1em;
+	grid-template-areas: "header"
+                            "nav-main"
+                            "content"
+                            "footer";
+	grid-template-rows: 25px 25px 1fr auto;
 	text-align: center;
 }
 
 #header {
+	text-align:center;
 }
 
-.title {
-	margin: .6em 0 .6em 0;
-	font-size: 1.5em;
-	font-weight: bold;
+#nav-main {
+	font-size: .9em;
 }
 
 #content {
-        padding-bottom: 100px;
+	margin: 0 .5em 0 .5em; 
 }
 
-.content {
-	margin: 0 0 0 30px;
+.title {
+	margin-top: .5em;
+	font-size: 1em;
+	font-weight: bold;
+	text-align: center;
+}
+
+#content {
 }
 #footer {
-        position: absolute;
-        bottom: 0;
         width: 100%;
+	font-size: .7em;
+	text-align: right;
+	color: #5c5c5c;
 }
 
 #ds-header {
@@ -54,15 +71,11 @@ a:visited {
 #ds-device {
 	text-align: left;
 }
-table {
-	margin: 0 20px 20px 20px;
-}
-table .key {
-	width: 50%;
-}
 
-p {
-	text-align:left;
+p, li {
+	font-size:.8em;
+	line-height: 1.5em;
+	text-align: left;
 }
 
 h1 {
@@ -73,17 +86,23 @@ h1 {
 
 h2 {
 	font-size: 1em;
-	margin: 0 0 0 0;
+	margin: 1em 0 0 0;
+}
+
+h3 {
+	font-size: .8em;
 }
 
 form {
 	margin:20px 0 0 0;
 }
 
+
+
 input {
 	margin: 0 0 20px 0;
-	text-align: center;
 	font-size: 1em;
+        width: 9em;
 }
 
 input[type='radio'] {
@@ -95,8 +114,20 @@ button {
 	color: #FFFFFF;
 	background-color: #0099cc;
 	padding: 5px 100px 5px 100px;
-	margin: 0 0 20px 0;
+        width: 9em;
+	margin: 1em auto 20px auto;
 	font-size: 1em;
+	text-align: center;
+}
+
+.breadcrumbs {
+	margin-top: .5em;
+	text-align: left;
+	font-size: .8em;
+}
+
+.charts-nav {
+	text-align: center;
 }
 
 .charts {
@@ -106,13 +137,19 @@ button {
 }
 
 .chart-block {
+	text-align: right;
 }
 
 .chart-timeframe {}
 
 .device-reading {
-	margin: 0 0 .5em 0;
+	text-align: left;
 }
+
+.device-edit {
+	text-align: left;
+}
+
 
 .device-settings {
 	margin: 0 0 0 30px;
@@ -132,7 +169,7 @@ button {
 }
 
 .devices-list {
-	margin: 0 0 20px 30px;
+	margin: 0 0 20px 0;
 	
 }
 
@@ -141,7 +178,7 @@ button {
 }
 
 .devices-reading {
-	margin: 0 0 30px 20px;
+	margin: 0 0 30px 0;
 	text-align: left;
 }
 
@@ -155,13 +192,48 @@ button {
 
 .devices-reading-ts {}
 
+.login-form {
+	margin-top: 3em;
+	text-align: center;
+}
+
+.map {
+	width: 100%;
+	margin: 0 auto;
+	text-align: left;
+	font-size: .9em;
+	text-align: center;
+}
+
+.map-title {
+	font-weight:bold;
+	font-size: .8em;
+	text-align: left;
+	margin-bottom: .25em;
+}
+
+.map-key {
+	display: inline-block;
+	width: 5.5em;
+	text-align: left;
+}
+
+.map-value {
+	display: inline-block;
+	width: 9em;
+	text-align: left;
+}
+
+
+.map-action {}
+
 .nav-main {
 	margin: 0 0 30px 0;
 }
 
 .nav-main-block {
 	display: inline-block;
-	margin-right:.5em;
+	margin-right:.3em;
 }
 
 
@@ -171,39 +243,36 @@ button {
 }
 
 .settings-subheading {
-	margin: 0 0 0 60px;
+	margin: 0 55px 0 60px;
 	text-align:left;
 }
+
+.spaced {
+	letter-spacing: 1px;
+}
+
 
 .text-minor {
 	font-size: .8em;
 }
 
-.form {
+.list {
+	margin: 10px 0 10px 0;
 	text-align: center;
 }
 
-.list {
-	margin: 0 0 10px 0;
-	text-align: left;
-}
-
-.list-button {
-	margin: 30px 0 0 0;
-	width: 700px;
-}
 
 @media only screen and (min-device-width: 768px) {
 
 html, body {
 	height: 100%;
 	font-size: 150%;
-	font-family: sans-serif;
+	font-family: "Verdena", "Geneva", sans-serif;
 }
 
+
 #container {
-	min-height: 100%;
-	position: relative;
+	grid-template-rows: 1.5em .5em 1fr auto;
 	text-align: center;
 }
 
@@ -215,24 +284,14 @@ html, body {
 	font-size: 1em;
 }
 
-#body {
-	padding-bottom: 63px;
-}
 
 #footer {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	height:50px;
-}
-
-.index {
-	margin: 200px 0 0 0;
+	font-size: .8em;
 }
 
 .title {
-	margin:.7em 0 .7em 0;
-	font-size: 1.7em;
+	margin-top: .25em;
+	font-size: 1.5em;
 	font-weight: bold;
 }
 
@@ -240,20 +299,24 @@ h1 {
 	font-size: 2em;
 }
 
+input {}
+
+button {}
+
+
 .align-left {
 	text-align: left;
 }
 
+.center-wrap {}
+
 .charts {
-	display: block;
+	display: inline-block;
 	margin: 0 0 .5em 1em ;
 	text-align: left;
 }
 
-.chart-block {
-	display: inline-block;
-	margin-right: .5em;
-}
+.chart-block {}
 
 .chart-timeframe {
 	font-size: 1.25em;
@@ -261,7 +324,8 @@ h1 {
 }
 
 .device-reading {
-	margin: 0 0 1em 0;
+	margin-bottom: .25em;
+	text-align: center;
 }
 
 .device-reading-block {
@@ -270,13 +334,48 @@ h1 {
 	font-weight: bold;
 }
 
+
 .devices-list {}
+
+.devices-alias {
+	margin: 0 0 .25em 0;
+}
 
 .devices-reading-block {
 	display: inline-block;
-	margin: 0 1em 0 0;
+	margin: 0 1em .1em 0;
 	font-size: 1.5em;
 }
+
+.map {
+	width: 17em;
+	font-size: .9em;
+}
+
+.map-3c {
+	width: 21em;
+}
+
+.map-title {
+	font-weight: bold;
+	font-size: .7em;
+}
+
+.map-key {
+	display: inline-block;
+	margin: .3em 0 0 0;
+}
+
+.map-value {
+	display: inline-block;
+	margin: 0 1em 0 0;
+}
+
+.map-action {
+	display: inline-block;
+	width: 4em;
+}
+
 
 .timeframe {
 	font-size: 1.2em;
@@ -286,59 +385,59 @@ h1 {
 
 }
 
-@media only screen and (min-device-width: 1440px) {
+@media only screen and (min-device-width: 960px) {
 html, body {
 	font-size: 100%;
 }
 
-button {
-	width: 100px;
-	padding: 0 0 0 0;
-	margin: 0 0 0 0;
-}
-
 #container {
-	min-height: 100%;
-	position: relative;
+	display: grid;
+	grid-template-columns: 225px auto;
+        grid-template-rows:75px auto 75px;
+	grid-template-areas: "header nav-main"
+                             "content content"
+                             "footer footer";
+	width:960px;
+	margin: 0 auto;
 	text-align: left;
 }
 
+
 #header {
 	font-size: 2em;
+	text-align:left;
 }
 
 #nav-main {
 	font-size: 1em;
 }
 
-#body {
-	padding-bottom: 63px;
-}
-
 #footer {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	height:50px;
+	font-size: 1em;
 }
 
 .index {
 	margin: 0 0 0 0;
 }
 
-.nav-main {}
-
-.nav-main-block {
-	display: block;
+.list {
+	margin-left: 1em;
+	text-align: left;
 }
+
+.nav-main-block {}
 .title {
-	margin:.7em 0 .7em 0;
 	font-size: 1.7em;
 	font-weight: bold;
+	text-align: left;
 }
 
 h1 {
 	font-size: 2em;
+}
+
+button {
+	padding: 0 0 0 0;
 }
 
 .align-left {
@@ -363,6 +462,7 @@ h1 {
 
 .device-reading {
 	margin: 0 0 1em 0;
+	text-align: left;
 }
 
 .device-reading-block {
@@ -370,8 +470,6 @@ h1 {
 	font-size: 1.5em;
 	font-weight: bold;
 }
-
-.devices-list {}
 
 .devices-reading-block {
 	display: inline-block;
@@ -383,9 +481,23 @@ h1 {
 	text-align: left;
 }
 
-.form {
+.login-form {
 	text-align: left;
-	margin-left: 60px;
+}
+
+.map {
+	margin-left: 0;
+}
+
+.map-3c {
+}
+
+.map-key {}
+
+.map-value {}
+
+.map-action {
+	width: 4em;
 }
 
 .timeframe {

@@ -1,20 +1,12 @@
 <?php
     session_start();
-    if (isset($_SESSION['valid'])) {
-        $url = 'http://' . $_SERVER['HTTP_HOST'] . '/devices.php';
-        header("Location: $url");
+    function redirect($page) {
+        header('HTTP/1.1 303');
+        header('Location: https://' . $_SERVER['HTTP_HOST'] . '/' . $page);
         exit;
     }
-    include 'page_template.php';
-    include 'form_login.php';
-    printHeader();
-    printBanner();
+
+    if (isset($_SESSION['valid'])) { redirect('devices.php'); }
+    else                           { redirect('login.php');   }
+
 ?>
-
-<!-- BEGIN OUTPUT -->
-<div id="content">
-<div class="index"><?php printLoginForm(); ?></div>
-</div> <!--/content-->
-<!-- END OUTPUT -->
-
-<?php printFooter(); ?>

@@ -25,10 +25,11 @@ echo "Configuring /lib/udev/hwclock-set ..."
 sed -i '7,9d' /lib/udev/hwclock-set
 
 
-# TZDATA
-# echo "Reconfiguring timezone....."
-# dpkg-reconfigure tzdata
-# echo "Timezone reconfigured....."
+TZDATA
+echo "Reconfiguring timezone....."
+dpkg-reconfigure tzdata
+
+
 
 # IPTABLES
 echo "Configuring iptables....."
