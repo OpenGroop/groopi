@@ -181,7 +181,7 @@ echo 'denyintefaces uap0' >> /etc/dhcpcd.conf
 echo "Setting up hostapd..."
 echo "Configuring hostapd.conf..."
 
-prefix="og-"
+prefix="iq-"
 line=$(ifconfig wlan0 | grep HWaddr )
 addr=${line:((${#line}-7)):5}
 essid=$prefix${addr/:/}
