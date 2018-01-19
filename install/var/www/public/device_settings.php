@@ -5,7 +5,7 @@
     require_once ('../lib/groop/src/groop_device_register.php');
     require_once ('../lib/groop/src/groop_db_register.php');
     require_once ('../lib/groop/src/groop_db_sensordata.php');
-    require_once ('../page/page_template_ds.php');
+    require_once ('../page/page_template.php');
 
     $msg = '';
 
