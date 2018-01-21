@@ -175,7 +175,7 @@ iptables -v -A OUTPUT -o uap0 -j _uap0
 
 # SETTING UP /etc/dhcpcd.conf
 echo "Setting up /etc/dhcpcd.conf"
-echo 'denyintefaces uap0' >> /etc/dhcpcd.conf
+echo 'denyinterfaces uap0' >> /etc/dhcpcd.conf
 
 # SETUP HOSTAPD
 echo "Setting up hostapd..."
