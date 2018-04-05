@@ -200,8 +200,8 @@ echo "Finished"
 echo ""
 echo "*************************"
 echo ""
-echo "ESSID   : "$passphrase
-echo "PASSWORD: "$essid
+echo "ESSID   : "$essid
+echo "PASSWORD: "$passphrase
 
 echo ""
 echo "*************************" 
