@@ -64,7 +64,7 @@ echo "iptables configured....."
 
 # UPDATE APT
 echo "Configuring /etc/apt/sources.list..."
-echo 'deb http://192.168.2.29/raspbian jessie main non-free contrib rpi' > /etc/apt/sources.list
+echo 'deb http://repository00/raspbian jessie main non-free contrib rpi' > /etc/apt/sources.list
 
 echo "Updating packages....."
 apt-get update
