@@ -8,10 +8,12 @@ import serial
 import sqlite3
 import sys
 import threading
+
 from sconstants import LOG_PATH
 from sconstants import REGISTER_DB_PATH
 from sconstants import SENSORDATA_DB_PATH
 from sconstants import TEMP_C
+from smqtt      import SMQTT
 
 #LOG_PATH = os.path.join('/var','log','sentry','sentry.log')
 logging.basicConfig(filename=LOG_PATH,level=logging.INFO, format='[%(created)f] [%(asctime)s] [%(process)d] [%(filename)s] [%(levelname)s]: %(message)s')
@@ -120,6 +122,9 @@ class SConnect(threading.Thread):
                 logging.info(' %s/%s: OperationalError: Closing database connection.', self.device, deviceID)
 
             db_conn.close()
+
+            SMQTT.push(data)
+
             return True
 
         

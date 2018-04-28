@@ -43,7 +43,7 @@ systemctl stop hostapd
 systemctl stop dnsmasq
 
 # PIP PACKAGES
-pip install pyudev pyserial
+pip install pyudev pyserial paho-mqtt
 
 # SENTRY PACKAGE
 echo "Getting sentry files..."
@@ -170,6 +170,7 @@ iptables -v -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
 iptables -v -A INPUT -i uap0 -j _uap0
 iptables -v -A OUTPUT -p tcp -m tcp --sport 80   -m state --state ESTABLISHED -j ACCEPT
 iptables -v -A OUTPUT -p tcp -m tcp --sport 443  -m state --state ESTABLISHED -j ACCEPT
+iptables -v -A OUTPUT -p tcp -m tcp --dport 8883 -m state --state NEW -j ACCEPT
 iptables -v -A OUTPUT -o uap0 -j _uap0
 
 
