@@ -122,9 +122,6 @@ class SConnect(threading.Thread):
                 logging.info(' %s/%s: OperationalError: Closing database connection.', self.device, deviceID)
 
             db_conn.close()
-
-            SMQTT.push(data)
-
             return True
 
         
@@ -160,6 +157,7 @@ class SConnect(threading.Thread):
             data = getDictionary(line)
 
             write(data)
+            SMQTT.push(data)
 
             ## LOG DEVICE HEARTBEAT
             count += 1
