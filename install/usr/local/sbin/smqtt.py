@@ -59,21 +59,17 @@ class SMQTT():
 
         topic = row['user'] + '/sensor/sthp/' + data['device_id']
 
-        logging.debug('topic:   %', topic)
-        logging.debug('payload: %', str(data))
-        logging.debug('mqtt host: %', row['host'])
-        logging.debug('mqtt user: %', row['user'])
-        logging.debug('mqtt port: %', str(row['port']))
-        logging.debug('ca_cert:  %', ca_cert)
-        logging.debug('mqttAuth: %', str(mqttAuth))
+        # logging.debug('topic:   %', topic)
+        # logging.debug('payload: %', str(data))
+        # logging.debug('mqtt host: %', row['host'])
+        # logging.debug('mqtt user: %', row['user'])
+        # logging.debug('mqtt port: %', str(row['port']))
+        # logging.debug('ca_cert:  %', ca_cert)
+        # logging.debug('mqttAuth: %', str(mqttAuth))
 
         try:
             publish.single(topic, str(data), hostname=row['host'], auth=mqttAuth, port=row['port'], tls=mqttTls, client_id=data['device_id'] )
         except Exception, e:
             logging.warn(e)
-
-        mqtt_client = paho.Client()
-
-        
-
+            SMQTT_DB_Helper.setConnStatus(-1)
 ## EOF
