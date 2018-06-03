@@ -1,11 +1,12 @@
-<?php 
+<?php
     require      ('../session/session_check_admin.php');
     require_once ('../page/page_template.php');
+    require_once ('../lib/groop/src/groop_db_system.php')
 
-    function mqttEnanble() {}
+    function printMQTT() {
 
+    }
 ?>
-
 
 <div class="settings-subheading">
     <p>Cloud service is currently disabled.</p>
@@ -32,4 +33,3 @@
     <div class="map-key">Password:</div>
     <div class="map-value spaced"><input type="text" name="TXT_PASSWD" required></></div>
 </div> <!--/#map-->
- 

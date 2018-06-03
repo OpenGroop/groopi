@@ -2,8 +2,7 @@
 <?php 
     require      ('../session/session_check_admin.php');
     require_once ('../page/page_template.php');
-
-    $msg = '';
+    require_once ('mqtt.php')
 
     // FORM ACTION
 
@@ -23,21 +22,11 @@
 
     <div><?php printTitle("CLOUD SERVICE"); ?></div>
 
-    <div><?php echo $msg; ?></div>
-
     <hr>
 
     <div class="map-title">CLOUD SERVICE STATUS</div>
 
-    <?php 
-        if cloudservice is disables {
-            include('settings_mqtt_enable.php')
-        } else {
-            include('settings_mqtt_disable.php')
-        }
-    ?>
-
-
+        <?php printMQTT() ?>
 
 </div> <!--/#content-->
 
