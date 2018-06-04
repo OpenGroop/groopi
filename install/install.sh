@@ -96,8 +96,8 @@ echo "Setting up system.db..."
 sqlite3 /srv/sqlite3/data/system.db <<EOS
 	CREATE TABLE usb(valid INTEGER);
 	INSERT INTO usb(valid) VALUES(0);
-  CREATE TABLE smqtt(host TEXT, user TEXT, password TEXT, port INTEGER, enabled INTEGER, conn_status TEXT);
-  INSERT INTO smqtt(enabled) VALUES(0)
+  CREATE TABLE mqtt(host TEXT, acct_id INTEGER, password TEXT, port INTEGER, enabled INTEGER, conn_status INTEGER);
+  INSERT INTO mqtt(enabled) VALUES(0);
 EOS
 
 echo "Setting up user.db..."

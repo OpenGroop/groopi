@@ -2,7 +2,10 @@
 <?php 
     require      ('../session/session_check_admin.php');
     require_once ('../page/page_template.php');
+    require_once ('../lib/groop/src/groop_db_system.php')
     require_once ('mqtt.php')
+
+    $mqtt = getMQTTSettings();
 
     // FORM ACTION
 
@@ -12,6 +15,7 @@
     // BODY
     printBanner();
     printNavigation();
+
 
 ?>
 
@@ -26,7 +30,13 @@
 
     <div class="map-title">CLOUD SERVICE STATUS</div>
 
-        <?php printMQTT() ?>
+    <?php if ($mqtt['enabled'] == 0): ?>
+        <form>
+            
+        </form>   
+    <?php else: ?>
+
+    <?php endif ?>
 
 </div> <!--/#content-->
 
