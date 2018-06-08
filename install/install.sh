@@ -96,8 +96,8 @@ echo "Setting up system.db..."
 sqlite3 /srv/sqlite3/data/system.db <<EOS
 	CREATE TABLE usb(valid INTEGER);
 	INSERT INTO usb(valid) VALUES(0);
-  CREATE TABLE mqtt(host TEXT, acct_id INTEGER, password TEXT, port INTEGER, enabled INTEGER, conn_status INTEGER);
-  INSERT INTO mqtt(enabled) VALUES(0);
+  CREATE TABLE mqtt(host TEXT, acct_id INTEGER, password TEXT, port INTEGER, enable INTEGER, conn_status INTEGER);
+  INSERT INTO mqtt(host, acct_id, password, port, enable, conn_status) VALUES("host.example.com", 654321, "password", 8883, 0, -2);
 EOS
 
 echo "Setting up user.db..."
@@ -165,7 +165,7 @@ chmod -v 660 /etc/wpa_supplicant/wpa_supplicant.conf*
 echo "Appending rules to ipatables..."
 iptables -N _uap0
 iptables -v -A _uap0 -i uap0 -p udp --dport 67:68 -j ACCEPT
-iptables -v -A _uap0 -o uap0 -p udp --sport 67:68 -m state --state ESTABLISHED -j ACEEPT
+iptables -v -A _uap0 -o uap0 -p udp --sport 67:68 -m state --state ESTABLISHED -j ACCEPT
 iptables -v -A _uap0 -m limit --limit 2/min -j LOG --log-prefix 'IPT-UAP0: '
 iptables -v -A INPUT -p tcp -m tcp --dport 80  -j ACCEPT
 iptables -v -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT

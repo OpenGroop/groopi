@@ -17,7 +17,7 @@ class SMQTT_DB_Helper():
         conn = sqlite3.connect(SYSTEM_DB_PATH)
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
-        sql = "SELECT * FROM mqtt WHERE id = 1"
+        sql = "SELECT * FROM mqtt WHERE ROWID=1"
         cursor.execute(sql)
         row = cursor.fetchone()
         cursor.close()
@@ -27,7 +27,7 @@ class SMQTT_DB_Helper():
     @staticmethod
     def setConnStatus(status):
         conn = sqlite3.connect(SYSTEM_DB_PATH)
-        sql = "UPDATE smqtt (conn_status) WHERE id=1 VALUES (?)"
+        sql = "UPDATE mqtt SET conn_status=? WHERE ROWID=1"
         cursor = conn.cursor()
         cursor.execute(sql, (status,))
         conn.commit()
