@@ -163,7 +163,7 @@ chmod -v 660 /etc/wpa_supplicant/wpa_supplicant.conf*
 echo "Appending rules to ipatables..."
 iptables -N _uap0
 iptables -v -A _uap0 -i uap0 -p udp --dport 67:68 -j ACCEPT
-iptables -v -A _uap0 -o uap0 -p udp --sport 67:68 -m state --state ESTABLISHED -j ACEEPT
+iptables -v -A _uap0 -o uap0 -p udp --sport 67:68 -m state --state ESTABLISHED -j ACCEPT
 iptables -v -A _uap0 -m limit --limit 2/min -j LOG --log-prefix 'IPT-UAP0: '
 iptables -v -A INPUT -p tcp -m tcp --dport 80  -j ACCEPT
 iptables -v -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
@@ -194,7 +194,7 @@ echo 'DAEMON_CONF="/etc/hostapd/hostapd.conf"' >> /etc/default/hostapd
 update-rc.d hostapd defaults
 
 echo "Reconfiguring /etc/apt/sources.list ..."
-echo 'deb https://mirrordirector.raspbian.org/raspbian jessie main non-free contrib rpi' > /etc/apt/sources.list
+echo 'deb http://mirrordirector.raspbian.org/raspbian jessie main non-free contrib rpi' > /etc/apt/sources.list
 
 echo "Finished"
 echo ""
