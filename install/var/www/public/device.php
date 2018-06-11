@@ -75,10 +75,10 @@
 
         echo '<div class="charts-nav">'.PHP_EOL;
         echo '<div class="charts">'.PHP_EOL;
-        echo '<div class="chart-block"><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getGranularTable().'&timeframe=24&interval=30" target="_self"> 24 HOURS </a></div>'.PHP_EOL;
-        echo '<div class="chart-block"><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getGranularTable().'&timeframe=48&interval=60" target="_self"> 48 HOURS </a></div>'.PHP_EOL;
-        echo '<div class="chart-block"><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getGranularTable().'&timeframe=72&interval=90" target="_self"> 72 HOURS </a></div>'.PHP_EOL;
-        echo '<div class="chart-block"><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getGranularTable().'&timeframe=144&interval=180" target="_self"> 144 HOURS </a></div>'.PHP_EOL;
+        echo '<div class="chart-block"><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getGranularTable().'&timeframe=24&interval=15" target="_self"> 24 HOURS </a></div>'.PHP_EOL;
+        echo '<div class="chart-block"><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getGranularTable().'&timeframe=48&interval=30" target="_self"> 48 HOURS </a></div>'.PHP_EOL;
+        echo '<div class="chart-block"><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getGranularTable().'&timeframe=72&interval=45" target="_self"> 72 HOURS </a></div>'.PHP_EOL;
+        echo '<div class="chart-block"><a href="device.php?id='.$sthp->getId().'&table='.$sthp->getGranularTable().'&timeframe=144&interval=90" target="_self"> 144 HOURS </a></div>'.PHP_EOL;
         echo '</div> <!--/.charts-->'.PHP_EOL;
 
         echo '<div class="charts">'.PHP_EOL;
