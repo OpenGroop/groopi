@@ -9,7 +9,7 @@ from smqtt_db_helper import SMQTT_DB_Helper
 
 from sconstants import LOG_PATH
 from sconstants import SYSTEM_DB_PATH
-
+from sconstants import CA_CERT
 
 class SMQTT():
 
@@ -31,7 +31,7 @@ class SMQTT():
         ca_cert  = '/etc/ssl/certs/DST_Root_CA_X3.pem'
 
         mqttAuth = {'username': str(row['acct_id']), 'password': row['password']}
-        mqttTls  = {'ca_certs':ca_cert, 'tls_version':ssl.PROTOCOL_TLSv1_2}
+        mqttTls  = {'ca_certs':CA_CERT, 'tls_version':ssl.PROTOCOL_TLSv1_2}
 
         topic = str(row['acct_id']) + '/sensor/sthp/' + data['device_id']
 

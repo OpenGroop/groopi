@@ -197,7 +197,7 @@ echo 'DAEMON_CONF="/etc/hostapd/hostapd.conf"' >> /etc/default/hostapd
 update-rc.d hostapd defaults
 
 echo "Reconfiguring /etc/apt/sources.list ..."
-echo 'deb https://mirrordirector.raspbian.org/raspbian jessie main non-free contrib rpi' > /etc/apt/sources.list
+echo 'deb http://mirrordirector.raspbian.org/raspbian jessie main non-free contrib rpi' > /etc/apt/sources.list
 
 echo "Finished"
 echo ""

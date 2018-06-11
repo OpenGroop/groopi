@@ -12,3 +12,6 @@ SYSTEM_DB_PATH     = os.path.join(DB_ROOT, 'system.db')
 REGISTER_DB_PATH   = os.path.join(DB_ROOT, 'register.db')
 
 TEMP_C = 'temp_c'
+
+# CA Certificate file location
+CA_CERT = os.path.join('/etc', 'ssl', 'certs', 'DST_Root_CA_X3.pem')
