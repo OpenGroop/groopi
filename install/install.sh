@@ -166,7 +166,7 @@ echo "Appending rules to ipatables..."
 iptables -N _uap0
 iptables -v -A _uap0 -i uap0 -p udp --dport 67:68 -j ACCEPT
 iptables -v -A _uap0 -o uap0 -p udp --sport 67:68 -m state --state ESTABLISHED -j ACCEPT
-iptables -v -A _uap0 -m limit --limit 2/min -j LOG --log-prefix 'IPT-UAP0: '
+# iptables -v -A _uap0 -m limit --limit 2/min -j LOG --log-prefix 'IPT-UAP0: '
 iptables -v -A INPUT -p tcp -m tcp --dport 80  -j ACCEPT
 iptables -v -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
 iptables -v -A INPUT -i uap0 -j _uap0

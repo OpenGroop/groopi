@@ -29,7 +29,7 @@
 
 
     if ( isset($_POST['BTN_WIFI']) ) {
-        connectWifi($_POST['TXT_ESSID'], $_POST['TXT_PSK']);
+        connectWifi($_POST['TXT_ESSID'], '"' . $_POST['TXT_PSK'] . '"');
         exit;
 //        $a = 0;
 //        foreach ($status as $b) {
