@@ -72,6 +72,10 @@ a:visited {
 	text-align: left;
 }
 
+hr {
+	box-shadow: 1px 1px white;
+}
+
 p, li {
 	font-size:.8em;
 	line-height: 1.5em;
@@ -206,6 +210,7 @@ button {
 }
 
 .map-title {
+	text-shadow: 1px 1px white;
 	font-weight:bold;
 	font-size: .8em;
 	text-align: left;

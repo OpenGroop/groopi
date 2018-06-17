@@ -27,7 +27,8 @@ echo 'www-data    ALL=(ALL) NOPASSWD: /usr/local/bin/wpa_conf.py, \
                                       /usr/local/bin/hostapd-stop.sh, \
                                       /usr/local/bin/hostapd-start.sh, \
                                       /usr/local/bin/hostapd-reconf.sh, \
-                                      /usr/local/bin/hwclock-set.sh \ 
+                                      /usr/local/bin/hwclock-set.sh, \
+                                      /usr/local/bin/essid-scan.sh \ 
                                       '| EDITOR='tee -a' visudo
 
 
