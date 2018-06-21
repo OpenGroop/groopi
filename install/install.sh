@@ -19,14 +19,11 @@ adduser --no-create-home --disabled-password --disabled-login --gecos "" sentry
 # SET USERS TO GROUPS
 usermod -aG dialout sentry
 usermod -aG www-data sentry
-echo 'www-data    ALL=(ALL) NOPASSWD: /usr/local/bin/wpa_conf.py, \
+echo 'www-data    ALL=(ALL) NOPASSWD: /usr/local/bin/wpa_connect.sh, \
                                       /usr/local/bin/wpa_disconnect.sh, \
                                       /usr/local/bin/backupdbs.sh, \
                                       /usr/local/bin/restoredbs.sh, \
                                       /usr/local/bin/iw-chan.sh, \
-                                      /usr/local/bin/hostapd-stop.sh, \
-                                      /usr/local/bin/hostapd-start.sh, \
-                                      /usr/local/bin/hostapd-reconf.sh, \
                                       /usr/local/bin/hwclock-set.sh, \
                                       /usr/local/bin/essid-scan.sh \ 
                                       '| EDITOR='tee -a' visudo
@@ -197,8 +194,8 @@ echo 'wpa_passphrase='$passphrase >> /etc/hostapd/hostapd.conf
 echo 'DAEMON_CONF="/etc/hostapd/hostapd.conf"' >> /etc/default/hostapd
 update-rc.d hostapd defaults
 
-echo "Reconfiguring /etc/apt/sources.list ..."
-echo 'deb http://mirrordirector.raspbian.org/raspbian jessie main non-free contrib rpi' > /etc/apt/sources.list
+# echo "Reconfiguring /etc/apt/sources.list ..."
+# echo 'deb http://mirrordirector.raspbian.org/raspbian jessie main non-free contrib rpi' > /etc/apt/sources.list
 
 echo "Finished"
 echo ""

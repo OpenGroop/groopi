@@ -18,9 +18,6 @@
 <hr>
 
 <div class="settings-subheading">
-<p>User manual can be found at <a class="spaced" href="https://www.opengroop.org" target="_blank">www.opengroop.org.</a></p>
-<hr>
-
 
 <h3>Contact</h3>
 

@@ -63,8 +63,8 @@ chmod +x /etc/network/if-post-down.d/ipt-save
 echo "iptables configured....."
 
 # UPDATE APT
-echo "Configuring /etc/apt/sources.list..."
-echo 'deb http://repository00/raspbian jessie main non-free contrib rpi' > /etc/apt/sources.list
+#echo "Configuring /etc/apt/sources.list..."
+#echo 'deb http://repository00/raspbian jessie main non-free contrib rpi' > /etc/apt/sources.list
 
 echo "Updating packages....."
 apt-get update

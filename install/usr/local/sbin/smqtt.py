@@ -16,7 +16,7 @@ class SMQTT():
     @staticmethod
     def push(data):
 
-        logging.basicConfig(filename=LOG_PATH,level=logging.DEBUG, format='[%(created)f] [%(asctime)s] [%(process)d] [%(filename)s] [%(levelname)s]: %(message)s')
+        logging.basicConfig(filename=LOG_PATH,level=logging.INFO, format='[%(created)f] [%(asctime)s] [%(process)d] [%(filename)s] [%(levelname)s]: %(message)s')
 
         logging.debug('smqtt.push() called')
 

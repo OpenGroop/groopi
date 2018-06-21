@@ -68,8 +68,10 @@
 <p>Once the Ethernet interface has been assigned an IP address, the OpenGroop console will be accessible on the local network via the Ethernet's web URL.</p>
 <h3>WIFI connection</h3>
 <p>Connecting to a local WIFI network requires configuring.</p>
-<p>During the configuration process, the RPI's access point needs to be reset. If your browsing device is connected to the RPI's access point, it will be disconnected while the RPI resets it's access point.</p>
-<p>Once the RPI's access point has become available again, join it, return to this page (you might have to log back in to the OpenGroop console), and confirm an IP address has been assigned to the WIFI interface. Once confirmed, the OpenGroop console will be accessible on the local network via the WIFI's web URL.</p>
+<p>During the configuration process, the RPI's access point will be reset. If you are connected to the RPI via it's access point, you will be disconnected while the RPI configures the WIFI client</p>
+<p>When the RPI's access point becomes available, rejoin it, and then go to Settings/Network/Local Network to confirm connection status.</p>
+
+<p>Once confirmed, the OpenGroop console will be accessible on the local network via the WIFI's web URL.</p>
 
 </div>
 
