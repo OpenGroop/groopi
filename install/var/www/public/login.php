@@ -19,7 +19,7 @@
                     $_SESSION['userid']   = $login['id'];
                     $_SESSION['username'] = $login['username'];
                     header('HTTP/1.1 303');
-                    header('Location: https://' . $_SERVER['HTTP_HOST'] . '/devices.php');
+                    header('Location: devices.php');
                     exit;
                 } else {
                     $msg = "Login failed..try again";

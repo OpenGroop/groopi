@@ -6,8 +6,7 @@
     setcookie(session_name(),'',0,'/');
     session_regenerate_id(true);
 
-    $url = 'https://' . $_SERVER['HTTP_HOST'] . '/login.php';
     header('HTTP/1.1 303');
-    header("Location: $url");
+    header("Location: login.php");
     exit;
 ?>

@@ -49,7 +49,7 @@
                 $statement->bindColumn('conn_status', $mqtt['conn_status']);
                 $statement->fetch(PDO::FETCH_BOUND);
                 $statement = null;
-                $sustem_db = null;
+                $system_db = null;
             } catch (EXCEPTION $e) { echo 'FAILED: ' . $e->getMessage(); }
 
             return $mqtt;

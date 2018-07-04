@@ -1,5 +1,5 @@
 
-<?php 
+<?php
     require      ('../session/session_check_admin.php');
     require_once ('../lib/groop/src/groop_constants.php');
     require_once ('../lib/groop/src/groop_device_register.php');
@@ -29,7 +29,7 @@
             $statusRG = DBRegister::delete($_GET['id']);
             if ($statusSD == 0 && $statusRG == 0 ) {
                 header('HTTP/1.1 303');
-                header('Location: https://' . $_SERVER['HTTP_HOST'] . '/devices.php');
+                header('Location: devices.php');
             exit;
             } else {
                 $msg = 'There seems to be a problem..('.$status['sensordata'].$status['register'].')';

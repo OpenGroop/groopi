@@ -1,4 +1,4 @@
-<?php 
+<?php
     require      ('../session/session_check_admin.php');
     require_once ('../page/page_template.php');
     require_once ('../forms/form_network_wifi.php');
@@ -8,7 +8,7 @@
 
     if (strlen($essid) > 0) {
         header('HTTP/1.1 303');
-        header('Location: https://' . $_SERVER['HTTP_HOST'] . '/settings_network_local.php');
+        header('Location: settings_network_local.php');
         exit;
     }
 

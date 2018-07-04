@@ -10,7 +10,7 @@
             $status = DBUser::add($_POST['TXT_USER'],$_POST['TXT_PW_1']);
             if ($status == 0) {
             	header('HTTP/1.1 303');
-            	header('Location: https://' . $_SERVER['HTTP_HOST'] . '/' . $_SERVER['PHP_SELF']);
+            	header('Location: ' . $_SERVER['PHP_SELF']);
             	exit;
         	} else {
         		$msg = 'There seems to be a problem..(' . $status .')';

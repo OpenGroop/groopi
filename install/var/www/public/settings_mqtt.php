@@ -1,4 +1,4 @@
-<?php 
+<?php
     require      ('../session/session_check_admin.php');
     require_once ('../page/page_template.php');
     require_once ('../lib/groop/src/groop_db_system.php');
@@ -9,7 +9,7 @@
         $settings = array($_POST['TXT_HOST'], (int) $_POST['TXT_PORT'], (int) $_POST['TXT_ACCT_ID'], $_POST['TXT_PASSWD'], (int) $_POST['RADIO_ENABLE'], -2);
         DBSystem::setMQTTSettings($settings);
         header('HTTP/1.1 303');
-        header('Location: https://' . $_SERVER['HTTP_HOST'] . '/' . $_SERVER['PHP_SELF']);
+        header('Location: ' . $_SERVER['PHP_SELF']);
         exit;
     }
 

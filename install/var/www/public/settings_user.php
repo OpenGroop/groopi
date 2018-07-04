@@ -28,7 +28,7 @@
         $status = DBUser::deleteUser($user['id']);
         if ($status == 0) {
             header('HTTP/1.1 303');
-            header('Location: https://' . $_SERVER['HTTP_HOST'] . '/settings_users.php');
+            header('Location: settings_users.php');
             exit;
         } else {
             $msg_remove = 'There seems to be a problem..(' . $status . ')';
