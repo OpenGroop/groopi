@@ -6,7 +6,6 @@
     $ethip = get_if_ip('eth0');
     $wlnip = get_if_ip('wlan0');
     $remip  = get_remote_ip();
-    $remurl = get_if_url($remip);
 
     // HEADER
     printHeader();
@@ -24,6 +23,14 @@
 
 <hr>
 
+<div class="map-title">REMOTE IP ADDRESS</div>
+<div class="map">
+    <div class="map-key">Remote:</div>
+    <div class="map-value spaced"><?php echo $remip ?></div>
+</div>
+
+<hr>
+
 <div class="map-title">LOCAL IP ADDRESSES</div>
 <div class="map">
     <div class="map-key">WIFI:</div>
@@ -37,19 +44,10 @@
 
 <hr>
 
-<div class="map-title">REMOTE URL ADDRESS</div>
-<div class="map">
-    <div class="map-key">Remote:</div>
-    <div class="map-value spaced"><?php echo $remurl ?></div>
-</div>
-
-<hr>
-
 <div class="settings-subheading">
 <h2>Requirements</h2>
 <ul>
 <li>A local IP address. Either WIFI or Ethernet.</li>
-<li>A remote URL address.</li>
 <li>Port forwarding enabled on every router between the RPI and the Internet.</li>
 </ul>
 
@@ -64,14 +62,14 @@
 
 <p>The source port is:</p>
 <ul>
-<li class="spaced">443 (https - secure)</li>
+<li class="spaced">80 (http:// - insecure)</li>
+<li class="spaced">443 (https:// - secure - highly suggested - but comes with warnings)</li>
 </ul>
-<p>The destination IP address can be any local IP address listed above (if available). The destination port will be the same as the source port (443).</p>
+<p>The destination IP address can be any local IP address listed above (if available). The destination port will be the same as the source port (80 or 443).</p>
 <p>Note that if there are multiple routers between the Internet and the RPI, then the destination IP address will be the IP address of the next router in line, and so on until the RPI's IP address is reached.</p>
-<p></p>
 
 <h3>Remote access</h3>
-<p>Once your router(s) are configured to forward ports to the RPI, the OpenGroop console will be accessible remotely by pointing a browser to the remote URL address.</p>
+<p>Once your router(s) are configured to forward ports to the RPI, the OpenGroop console will be accessible remotely by pointing a browser to the remote IP address.</p>
 </div>
 </div> <!--/content-->
 

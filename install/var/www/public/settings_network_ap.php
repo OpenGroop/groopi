@@ -32,8 +32,8 @@
     </div>
 
     <div class="map">
-        <div class="map-key">Web URL:</div>
-        <div class="map-value spaced">https://10.10.10.1</div>
+        <div class="map-key">IP address:</div>
+        <div class="map-value spaced">10.10.10.1</div>
     </div>
 
 <hr>
@@ -45,7 +45,7 @@
     <ol>
         <li>Scan for available WIFI networks.</li>
         <li>Join this RPI's network.</li>
-        <li>Browse to this RPI's web URL.</li>
+        <li>Enter the IP address into your browser's address bar.</li>
         <li>Log in to the OpenGroop console.</li>
     </ol>
 </div>
