@@ -6,17 +6,16 @@
     $msg = '';
 
     if (isset($_POST['BTN_USER_ADD']) ) {
-        if ($_POST['TXT_PW_1'] == $_POST['TXT_PW_2']) {
+        if ($_POST['TXT_PW_1'] != $_POST['TXT_PW_2']) { $msg = "Passwords do not match..";}
+        else {
             $status = DBUser::add($_POST['TXT_USER'],$_POST['TXT_PW_1']);
+            if ($status == -1 || $status == -2) { $msg = "There seems to be a problem..(" . $status .")"; }
+            if ($status == -3) { $msg = "Username already in use.\nChoose another username."; }
             if ($status == 0) {
-            	header('HTTP/1.1 303');
-            	header('Location: ' . $_SERVER['PHP_SELF']);
-            	exit;
-        	} else {
-        		$msg = 'There seems to be a problem..(' . $status .')';
-        	}
-        } else {
-            $msg = "Passwords do not match..";
+                header('HTTP/1.1 303');
+                header('Location: ' . $_SERVER['PHP_SELF']);
+                exit;
+            }
         }
     }
 

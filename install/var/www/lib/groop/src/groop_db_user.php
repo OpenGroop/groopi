@@ -4,6 +4,83 @@
 
     class DBUser {
 
+        /* =============================================
+        // RETRIEVES USER INFO OF GIVEN USERID
+        // RETURNS:  array()
+        // =============================================*/
+        static function getUser($userid) {
+            $result = [
+                'status'   => '',
+                'id'       => '',
+                'username' => ''
+            ];
+
+            try { $pdo = new PDO(Constants::USER_DB); }
+            catch (EXCEPTION $e) {
+                $result['status'] = Constants::DB_CONN_ERR;
+                return $result;
+            }
+
+            try {
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $pdo->beginTransaction();
+                $sql = "SELECT id, user FROM hash WHERE id = ?";
+                $statement = $pdo->prepare($sql);
+                $statement->execute(array($userid));
+                $statement->bindColumn('id',   $result['id']);
+                $statement->bindColumn('user', $result['username']);
+                $statement->fetch(PDO::FETCH_BOUND);
+                $statement->closeCursor();
+                $statement = null;
+                $pdo = null;
+                $result['status'] = Constants::DB_ACTION_OK;
+            } catch (EXCEPTION $e) {
+                $result['status'] = Constants::DB_QUERY_ERR;
+                return $result;
+            }
+
+            return $result;
+        }
+
+
+        /* =============================================
+        // RETRIEVES USER INFO OF GIVEN USERNAME
+        // RETURNS:  array()
+        // =============================================*/
+        static function getUserByName($user) {
+            $result = [
+                'status'   => '',
+                'id'       => '',
+                'username' => ''
+            ];
+
+            try { $pdo = new PDO(Constants::USER_DB); }
+            catch (EXCEPTION $e) {
+                $result['status'] = Constants::DB_CONN_ERR;
+                return $result;
+            }
+
+            try {
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $pdo->beginTransaction();
+                $sql = "SELECT id, user FROM hash WHERE user = ?";
+                $statement = $pdo->prepare($sql);
+                $statement->execute(array($user));
+                $statement->bindColumn('id',   $result['id']);
+                $statement->bindColumn('user', $result['username']);
+                $statement->fetch(PDO::FETCH_BOUND);
+                $statement->closeCursor();
+                $statement = null;
+                $pdo = null;
+                $result['status'] = Constants::DB_ACTION_OK;
+            } catch (EXCEPTION $e) {
+                $result['status'] = Constants::DB_QUERY_ERR;
+                return $result;
+            }
+
+            return $result;
+        }
+
 
         /* =======================
         // ADDS A USER TO USER.DB
@@ -12,7 +89,19 @@
         // RETURNS:   integer
         // =======================*/
         static function add($user, $password) {
-            $status = '';
+            $status = null;
+
+            $u = DBUser::getUserByName($user);
+
+            if ($u['status'] < 0) {
+                $status = $u['status'];
+                return $status;
+            }
+
+            if ($u['id'] != null) {
+                $status = '-3';
+                return $status;
+            }
 
             $options = ['cost' => 9,];
             $hash = password_hash($password, PASSWORD_BCRYPT, $options);
@@ -102,44 +191,6 @@
                 $statement = null;
                 $pdo = null;
             } catch (EXCEPTION $e) {}
-            return $result;
-        }
-
-        /* =============================================
-        // RETRIEVES USERNAME AND USERID OF GIVEN USER
-        // RETURNS: nested array()
-        // =============================================*/
-        static function getUser($userid) {
-            $result = [
-                'status'   => '',
-                'id'       => '',
-                'username' => ''
-            ];
-
-            try { $pdo = new PDO(Constants::USER_DB); }
-            catch (EXCEPTION $e) {
-                $result['status'] = Constants::DB_CONN_ERR;
-                return $result;
-            }
-
-            try {
-                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $pdo->beginTransaction();
-                $sql = "SELECT id, user FROM hash WHERE id = ?";
-                $statement = $pdo->prepare($sql);
-                $statement->execute(array($userid));
-                $statement->bindColumn('id',   $result['id']);
-                $statement->bindColumn('user', $result['username']);
-                $statement->fetch(PDO::FETCH_BOUND);
-                $statement->closeCursor();
-                $statement = null;
-                $pdo = null;
-                $result['status'] = Constants::DB_ACTION_OK;
-            } catch (EXCEPTION $e) {
-                $result['status'] = Constants::DB_QUERY_ERR;
-                return $result;
-            }
-
             return $result;
         }
 

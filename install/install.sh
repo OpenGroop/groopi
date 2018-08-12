@@ -100,7 +100,7 @@ EOS
 
 echo "Setting up user.db..."
 sqlite3 /srv/sqlite3/data/user.db <<EOS
-	CREATE TABLE hash(id INTEGER PRIMARY KEY AUTOINCREMENT, value TEXT, user TEXT);
+	CREATE TABLE hash(id INTEGER PRIMARY KEY AUTOINCREMENT, value TEXT, user TEXT UNIQUE);
 EOS
 
 touch /srv/sqlite3/data/sensordata.db
