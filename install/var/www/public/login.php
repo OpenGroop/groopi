@@ -7,7 +7,7 @@
 
     if ( isset($_POST['BTN_LOGIN']) ) {
 
-        sleep(2);
+
         $login = DBUser::getLogin($_POST['TXT_USERNAME']);
 
         switch ($login['status']) {

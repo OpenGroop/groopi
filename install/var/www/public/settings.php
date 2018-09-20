@@ -7,7 +7,7 @@
 
     // BODY
     printBanner();
-    printNavigation();
+    // printNavigation();
 
 ?>
 <!-- HTML START -->

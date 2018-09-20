@@ -20,7 +20,7 @@
 
     printHeader();
     printBanner();
-    printNavigation();
+    // printNavigation();
 ?>
 <script language="Javascript">
     function showAlert() {

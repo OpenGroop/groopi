@@ -77,7 +77,7 @@
 
     // BODY
     printBanner();
-    printNavigation();
+    // printNavigation();
 
 ?>
 

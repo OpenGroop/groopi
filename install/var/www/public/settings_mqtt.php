@@ -20,7 +20,7 @@
 
     // BODY
     printBanner();
-    printNavigation();
+    // printNavigation();
 
 
 ?>

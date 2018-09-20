@@ -7,7 +7,7 @@
 
     // BODY
     printBanner();
-    printNavigation();
+    // printNavigation();
 
     // CONTENT
     echo '<div id="content">'.PHP_EOL;

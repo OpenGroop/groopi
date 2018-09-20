@@ -24,7 +24,7 @@
 
     function get_remote_ip() {
         global $nc;
-        $ip = exec('curl -s https://www.nancoo.org/ip-address.php | grep ip_address | sed "s/<[^>]*>//g"');
+        $ip = exec('curl -s https://test-g.terrestat.io/z/ip-address.php');
         if (strlen($ip == 0)) {
             $ip = $nc;
         }

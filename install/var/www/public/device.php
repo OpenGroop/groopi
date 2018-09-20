@@ -47,9 +47,8 @@
 
     printHeader();
     printBanner();
-    printNavigation();
+    // printNavigation();
 ?>
-<hr>
 <div id="content">
 <div class="breadcrumbs spaced">
 <a href="devices.php" target="_self">SENSORS</a>

@@ -5,7 +5,7 @@
         echo '<html>'.PHP_EOL;
         echo '<head>'.PHP_EOL;
         echo '<title> Groopi </title>'.PHP_EOL;
-        echo '<link rel="stylesheet" type="text/css" href="css/style.css?v3332" media="all" />'.PHP_EOL;
+        echo '<link rel="stylesheet" type="text/css" href="css/style.css?v3" media="all" />'.PHP_EOL;
         echo '</head>'.PHP_EOL;
         echo '<body>'.PHP_EOL;
         echo '<div id="container">'.PHP_EOL;
@@ -23,11 +23,6 @@
     }
 
 
-
-    function printBanner() {
-        echo '<header id="header"><span style="color:#800000">OPEN</span>GRO<span style="color:#800000;">/</span>OP</header>'.PHP_EOL;
-    }
-
     function printNavigation() {
         if (isset($_SESSION['valid'])) {
             echo '<div id="nav-main">'.PHP_EOL;
@@ -43,6 +38,15 @@
             echo '</div> <!--/#nav-main-->'.PHP_EOL;
         }
     }
+
+    function printBanner() {
+    	echo '<header id="header">'.PHP_EOL;
+        echo '<span id="open">Open</span><span id="gro">Gro</span><span id="slsh">/</span><span id="op">Op</span>'.PHP_EOL;
+        printNavigation();
+        echo '</header>'.PHP_EOL;
+    }
+
+
 
     function printLogout() {
         if (isset($_SESSION['valid'])) {
@@ -71,7 +75,7 @@
 #        echo '<div>www.opengroop.org <img src="media/globe.svg" alt="globe.svg"></div>'.PHP_EOL;
         echo '<div>support@opengroop.org <img src="media/mail.svg" alt="mail.svg"></div>'.PHP_EOL;
         echo '<div>@OpenGroop <img src="media/twit.svg" alt="twit.svg"></div>'.PHP_EOL;
-        echo '<div>v0.2.6</div>'.PHP_EOL;
+        echo '<div>v0.2.9</div>'.PHP_EOL;
         echo '</footer>  <!--/footer-->'.PHP_EOL;
         echo '</div>  <!--/container-->'.PHP_EOL;
         echo '</body>'.PHP_EOL;

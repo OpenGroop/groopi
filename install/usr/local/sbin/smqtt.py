@@ -5,11 +5,13 @@ import sqlite3
 import ssl
 import paho.mqtt.publish as publish
 
-from smqtt_db_helper import SMQTT_DB_Helper
+from datetime import datetime
 
 from sconstants import LOG_PATH
+from sconstants import REGISTER_DB_PATH
 from sconstants import SYSTEM_DB_PATH
 from sconstants import CA_CERT
+from smqtt_db_helper import SMQTT_DB_Helper
 
 class SMQTT():
 
@@ -28,6 +30,25 @@ class SMQTT():
 
         logging.debug('mqtt enable: TRUE')
 
+        data.update({'datetime':str(datetime.today())})
+
+        logging.debug('datetime: %s', data['datetime'])
+
+        register_db = sqlite3.connect(REGISTER_DB_PATH)
+        sql = "SELECT device_alias, uom FROM device_registers WHERE device_id =?"
+        cursor = register_db.cursor()
+        cursor.execute(sql,(data['device_id'],))
+        rst = cursor.fetchone()
+        cursor.close()
+        register_db.close()
+
+        data.update({'alias' : str(rst[0]) })
+        data.update({'format': str(rst[1]) })
+
+        logging.debug('alias: %s', data['alias'])
+        logging.debug('format: %s', data['format'])
+
+
         ca_cert  = '/etc/ssl/certs/DST_Root_CA_X3.pem'
 
         mqttAuth = {'username': str(row['acct_id']), 'password': row['password']}
@@ -42,3 +63,4 @@ class SMQTT():
             logging.warn(e)
             SMQTT_DB_Helper.setConnStatus(-1)
 ## EOF
+

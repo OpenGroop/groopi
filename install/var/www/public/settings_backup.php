@@ -41,7 +41,7 @@
 
     printHeader();
     printBanner();
-    printNavigation();
+    // printNavigation();
 
 ?>
 <div id="content">

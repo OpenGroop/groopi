@@ -9,7 +9,7 @@
 
     printHeader();
     printBanner();
-    printNavigation();
+    // printNavigation();
 ?>
 <div id="content">
 <div class="breadcrumbs spaced">

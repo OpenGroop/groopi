@@ -1,7 +1,7 @@
 html, body {
 	margin: 10px 0 10px 0;
 	font-size: 190%;
-	font-type: 'sans-serif';
+	font-family: sans-serif;
 	color: #333333;
         background-color: #EEEEEE;
 	height: 100%;
@@ -13,12 +13,21 @@ html, body {
 #footer   { grid-area: footer;}
 
 a {
-	color: #3333ff;
+	color: #006666;
 }
 
 a:visited {
-	color:#3333ff;
+	color:#006666;
 }
+
+
+#open { color:#cccc00; }
+
+#gro { color:#4c9900;  }
+
+#slsh { color:#cccc00; }
+
+#op { color:#cc0000; }
 
 #container {
 	display: grid;
@@ -33,15 +42,23 @@ a:visited {
 }
 
 #header {
-	text-align:center;
+	padding: .5em 0 0 0;
+	height: 1.5em;
+	color: #FFFFFF;
+	background-color: #333333;
 }
 
 #nav-main {
+	background-color: #333333;
 	font-size: .9em;
 }
 
+#nav-main a {
+	color: #FFFFFF;
+} 
+
 #content {
-	margin: 0 .5em 0 .5em; 
+	margin: .5em .5em 0 .5em; 
 }
 
 .title {
@@ -116,7 +133,9 @@ input[type='radio'] {
 
 button {
 	color: #FFFFFF;
-	background-color: #0099cc;
+	/*background-color: #0099cc;*/
+	/*background-color: #336600;*/
+	background-color: #C0C0C0;
 	padding: 5px 100px 5px 100px;
         width: 9em;
 	margin: 1em auto 20px auto;
@@ -282,7 +301,7 @@ html, body {
 }
 
 #header {
-	font-size: 2em;
+	/*font-size: 2em;*/
 }
 
 #nav-main {
@@ -390,7 +409,7 @@ button {}
 
 }
 
-@media only screen and (min-device-width: 960px) {
+/*@media only screen and (min-device-width: 960px) {
 html, body {
 	font-size: 100%;
 }
@@ -511,4 +530,4 @@ button {
 }
 
 
-}
+}*/
