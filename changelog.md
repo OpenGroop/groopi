@@ -1,3 +1,6 @@
+## 0.2.91
+- Patch -set all logging to INFO in sbin files
+
 ## 0.2.9
 - Bugfix - multiple users with same username
 - Design changes

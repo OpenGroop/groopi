@@ -75,7 +75,7 @@
 #        echo '<div>www.opengroop.org <img src="media/globe.svg" alt="globe.svg"></div>'.PHP_EOL;
         echo '<div>support@opengroop.org <img src="media/mail.svg" alt="mail.svg"></div>'.PHP_EOL;
         echo '<div>@OpenGroop <img src="media/twit.svg" alt="twit.svg"></div>'.PHP_EOL;
-        echo '<div>v0.2.9</div>'.PHP_EOL;
+        echo '<div>v0.2.91</div>'.PHP_EOL;
         echo '</footer>  <!--/footer-->'.PHP_EOL;
         echo '</div>  <!--/container-->'.PHP_EOL;
         echo '</body>'.PHP_EOL;
