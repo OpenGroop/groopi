@@ -1,21 +1,23 @@
 #!/bin/sh
 
-read -p "Enter hostname: " HOSTNAME
-read -p "Enter username: " USERNAME
-read -p "Enter SSH port: " SSH_PORT
+read -p "Enter hostname: " HOSTNAME #
+read -p "Enter username: " USERNAME #
+read -p "Enter SSH port: " SSH_PORT #
 # ADD NEW USER 
 echo "Creating new user....."
-adduser --gecos "" $USERNAME
-usermod -aG sudo $USERNAME
+adduser --gecos "" $USERNAME #
+usermod -aG sudo $USERNAME #
 echo "New user created....."
 
 # RTC 
 echo "Configuring RTC components ..."
 
+# stage1/01-sys-tweaks/00-run
 echo "Configuring /etc/modules ..."
-echo 'i2c-bcm2708' >> /etc/modules
-echo 'i2c-dev' >> /etc/modules
+echo 'i2c-bcm2708' >> /etc/modules # stage 3
+echo 'i2c-dev' >> /etc/modules # stage 3
 
+# stage1/00-boot-files/00-run
 echo "Configuring /boot/config.txt ..."
 echo 'dtparam=i2c1=on' > /boot/config.txt
 echo 'dtparam=i2c_arm=on' >> /boot/config.txt
@@ -114,57 +116,6 @@ sed -i 's/raspberrypi/'"$HOSTNAME"'/' /etc/hostname
 sed -i 's/raspberrypi/'"$HOSTNAME"'/' /etc/hosts
 echo "Hostname changed....."
 
-# # EXPAND FILESYSTEM
-# # Get the starting offset of the root partition
-# PART_START=$(parted /dev/mmcblk0 -ms unit s p | grep "^2" | cut -f 2 -d:)
-# [ "$PART_START" ] || return 1
-# # Return value will likely be error for fdisk as it fails to reload the 
-# # partition table because the root fs is mounted
-# fdisk /dev/mmcblk0 <<EOF
-# p
-# d
-# 2
-# n
-# p
-# 2
-# $PART_START
-
-# p
-# w
-# EOF
-# # ASK_TO_REBOOT=1
-
-# # now set up an init.d script
-# cat <<\EOF > /etc/init.d/resize2fs_once &&
-# #!/bin/sh
-# ### BEGIN INIT INFO
-# # Provides:          resize2fs_once
-# # Required-Start:
-# # Required-Stop:
-# # Default-Start: 2 3 4 5 S
-# # Default-Stop:
-# # Short-Description: Resize the root filesystem to fill partition
-# # Description:
-# ### END INIT INFO
-
-# . /lib/lsb/init-functions
-
-# case "$1" in
-#   start)
-#     log_daemon_msg "Starting resize2fs_once" &&
-#     resize2fs /dev/mmcblk0p2 &&
-#     rm /etc/init.d/resize2fs_once &&
-#     update-rc.d resize2fs_once remove &&
-#     log_end_msg $?
-#     ;;
-#   *)
-#     echo "Usage: $0 start" >&2
-#     exit 3
-#     ;;
-# esac
-# EOF
-# chmod +x /etc/init.d/resize2fs_once &&
-# update-rc.d resize2fs_once defaults &&
 
 echo "Rebooting machine....."
 echo "Login at $USERNAME@$HOSTNAME -p $SSH_PORT"
