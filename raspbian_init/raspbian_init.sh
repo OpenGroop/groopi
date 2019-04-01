@@ -21,6 +21,7 @@ echo 'dtparam=i2c1=on' > /boot/config.txt
 echo 'dtparam=i2c_arm=on' >> /boot/config.txt
 echo 'dtoverlay=i2c-rtc,ds1307' >> /boot/config.txt
 
+# WHAT THE FUCK DOES THIS DO
 echo "Configuring /lib/udev/hwclock-set ..."
 sed -i '7,9d' /lib/udev/hwclock-set
 
